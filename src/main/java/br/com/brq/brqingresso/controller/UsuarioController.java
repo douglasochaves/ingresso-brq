@@ -1,7 +1,9 @@
 package br.com.brq.brqingresso.controller;
 
-import br.com.brq.brqingresso.common.Helpers;
-import br.com.brq.brqingresso.domain.Usuario;
+import br.com.brq.brqingresso.domain.UsuarioRequest;
+import br.com.brq.brqingresso.domain.UsuarioResponse;
+import br.com.brq.brqingresso.entities.Usuario;
+import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +19,14 @@ public class UsuarioController {
     UsuarioRepository usuarioRepository;
 
     @PostMapping(value = "/usuarios")
-    Usuario usuarios(@RequestBody Usuario usuario) {
+    public UsuarioResponse usuario (@RequestBody UsuarioRequest usuarioRequest) {
 
-        Usuario usuarioData = Helpers.mapUsuario(usuario);
+        Usuario usuarioData = UsuarioMap.mapUsuario(usuarioRequest);
 
         usuarioRepository.save(usuarioData);
 
-        return usuarioData;
+        UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuarioData);
+
+        return usuarioResponse;
     }
 }
