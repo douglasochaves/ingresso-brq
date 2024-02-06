@@ -5,7 +5,10 @@ import br.com.brq.brqingresso.domain.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
+import br.com.brq.brqingresso.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     @PostMapping(value = "/usuarios")
-    public UsuarioResponse usuario (@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> criarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
 
         Usuario usuarioData = UsuarioMap.mapUsuario(usuarioRequest);
 
-        usuarioRepository.save(usuarioData);
+        usuarioService.processUsuario(usuarioData);
 
         UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuarioData);
 
-        return usuarioResponse;
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
     }
 }

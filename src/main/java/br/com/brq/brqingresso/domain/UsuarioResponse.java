@@ -18,6 +18,7 @@ public class UsuarioResponse {
     private String dataNascimento;
     private Long celular;
     private String genero;
+    @JsonProperty("data_cadastro")
     private String dataCadastro;
     private EnderecoResponse endereco;
 

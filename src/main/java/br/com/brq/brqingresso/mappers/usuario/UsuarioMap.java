@@ -7,8 +7,6 @@ import br.com.brq.brqingresso.domain.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -29,11 +27,26 @@ public class UsuarioMap {
         usuarioMap.setApelido(usuario.getApelido());
         usuarioMap.setDataNascimento(usuario.getDataNascimento());
         usuarioMap.setCelular(usuario.getCelular());
-        usuarioMap.setGenero(usuario.getGenero());
+        usuarioMap.setGenero(generoUsuario(usuario.getGenero()));
         usuarioMap.setDataCadastro(LocalDateTime.now());
         usuarioMap.setEndereco(mapEndereco(endereco));
 
         return usuarioMap;
+    }
+
+    private static Integer generoUsuario(String genero) {
+        switch (genero) {
+            case "M":
+                return 1;
+            case "F":
+                return 2;
+            case "B":
+                return 3;
+            case "N":
+                return 4;
+            default:
+                return null;
+        }
     }
 
     private static Endereco mapEndereco(EnderecoRequest endereco){
@@ -54,7 +67,6 @@ public class UsuarioMap {
         UsuarioResponse usuarioResponseMap = new UsuarioResponse();
         Endereco endereco = usuario.getEndereco();
 
-
         ZonedDateTime zonedDateTime = ZonedDateTime.of(usuario.getDataCadastro(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
@@ -67,11 +79,26 @@ public class UsuarioMap {
         usuarioResponseMap.setApelido(usuario.getApelido());
         usuarioResponseMap.setDataNascimento(usuario.getDataNascimento());
         usuarioResponseMap.setCelular(usuario.getCelular());
-        usuarioResponseMap.setGenero(usuario.getGenero());
+        usuarioResponseMap.setGenero(generoUsuarioResponse(usuario.getGenero()));
         usuarioResponseMap.setDataCadastro(dataCadastroString);
         usuarioResponseMap.setEndereco(mapEnderecoResponse(endereco));
 
         return usuarioResponseMap;
+    }
+
+    private static String generoUsuarioResponse(Integer genero) {
+        switch (genero) {
+            case 1:
+                return "M";
+            case 2:
+                return "F";
+            case 3:
+                return "B";
+            case 4:
+                return "N";
+            default:
+                return null;
+        }
     }
 
     private static EnderecoResponse mapEnderecoResponse(Endereco endereco){
@@ -87,4 +114,7 @@ public class UsuarioMap {
 
         return enderecoResponseMap;
     }
+
+
+
 }
