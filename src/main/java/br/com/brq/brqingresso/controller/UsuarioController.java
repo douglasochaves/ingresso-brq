@@ -4,7 +4,6 @@ import br.com.brq.brqingresso.domain.UsuarioRequest;
 import br.com.brq.brqingresso.domain.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
-import br.com.brq.brqingresso.repositories.UsuarioRepository;
 import br.com.brq.brqingresso.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +21,12 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping(value = "/usuarios")
-    public ResponseEntity<UsuarioResponse> criarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity criarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
 
         Usuario usuarioData = UsuarioMap.mapUsuario(usuarioRequest);
-
-        usuarioService.processUsuario(usuarioData);
+        if("teste".equals(usuarioService.processUsuario(usuarioData))) {
+            return ResponseEntity.status(404).body(usuarioService.processUsuario(usuarioData));
+        }
 
         UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuarioData);
 
