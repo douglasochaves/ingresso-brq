@@ -24,10 +24,9 @@ public class UsuarioController {
     private UsuarioListaService usuarioListaService;
 
     @PostMapping(value = "/usuarios")
-    public ResponseEntity cadastrarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> cadastrarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
         Usuario usuarioData = UsuarioMap.mapUsuario(usuarioRequest);
-        usuarioService.processUsuario(usuarioData);
-        UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuarioData);
+        UsuarioResponse usuarioResponse = usuarioService.processUsuario(usuarioData);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
     }
 
@@ -35,5 +34,11 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioListaResponse>> listarUsuario () {
         List<UsuarioListaResponse> usuarioListaResponse = usuarioListaService.buscaUsuarios();
         return ResponseEntity.ok().body(usuarioListaResponse);
+    }
+
+    @GetMapping(value = "/usuarios/{id}")
+    public ResponseEntity<UsuarioResponse> listarUsuario (@PathVariable String id) {
+        UsuarioResponse usuarioResponse = usuarioService.detalhaUsuario(id);
+        return ResponseEntity.ok().body(usuarioResponse);
     }
 }
