@@ -3,7 +3,7 @@ package br.com.brq.brqingresso.service;
 import br.com.brq.brqingresso.common.utils.Validations;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
-import br.com.brq.brqingresso.service.exception.ExceptionTeste;
+import br.com.brq.brqingresso.service.exception.InformacaoDuplicadaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,22 +14,31 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
 
     public String processUsuario(Usuario usuario) {
-        try {
             Validations.verificaDataNascimento(usuario.getDataNascimento());
-            verificaCpfUnico(usuario.getCpf());
+            verificaDuplicidade(usuario);
             usuarioRepository.save(usuario);
             return "";
-        } catch (ExceptionTeste e) {
-            ExceptionTeste.teste();
-            return "teste";
+    }
+
+    private void verificaDuplicidade(Usuario usuario) {
+        verificaCpfUnico(usuario.getCpf());
+        verificaEmailUnico(usuario.getEmail());
+    }
+
+
+    private void verificaCpfUnico(String cpf) throws InformacaoDuplicadaException {
+        if(usuarioRepository.existsByCpf(cpf)) {
+            throw new InformacaoDuplicadaException("O CPF já está cadastrado!");
         }
     }
 
-    private void verificaCpfUnico(String cpf) throws ExceptionTeste {
-        if(usuarioRepository.existsByCpf(cpf)) {
-            throw new ExceptionTeste();
+    private void verificaEmailUnico(String email) throws InformacaoDuplicadaException {
+        if(usuarioRepository.existsByEmail(email)) {
+            throw new InformacaoDuplicadaException("O Email já está cadastrado!");
         }
     }
+
+
 
 
 

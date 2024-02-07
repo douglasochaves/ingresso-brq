@@ -8,10 +8,7 @@ import br.com.brq.brqingresso.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/challengebrq/v1")
@@ -21,15 +18,12 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping(value = "/usuarios")
-    public ResponseEntity criarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
-
+    public ResponseEntity cadastrarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
         Usuario usuarioData = UsuarioMap.mapUsuario(usuarioRequest);
-        if("teste".equals(usuarioService.processUsuario(usuarioData))) {
-            return ResponseEntity.status(404).body(usuarioService.processUsuario(usuarioData));
-        }
-
+        usuarioService.processUsuario(usuarioData);
         UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuarioData);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
     }
+
+    
 }
