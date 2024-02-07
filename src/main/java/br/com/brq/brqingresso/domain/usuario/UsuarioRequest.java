@@ -2,10 +2,12 @@ package br.com.brq.brqingresso.domain.usuario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class UsuarioRequest {
 
     private String cpf;

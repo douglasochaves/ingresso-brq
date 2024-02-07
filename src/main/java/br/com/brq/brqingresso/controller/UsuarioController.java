@@ -5,6 +5,7 @@ import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
+import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.service.usuario.UsuarioService;
 import br.com.brq.brqingresso.service.usuariolista.UsuarioListaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/challengebrq/v1")
+@RequestMapping(value = "/challengebrq/v1/usuarios")
 public class UsuarioController {
 
     @Autowired
@@ -23,27 +24,33 @@ public class UsuarioController {
     @Autowired
     private UsuarioListaService usuarioListaService;
 
-    @PostMapping(value = "/usuarios")
+    @PostMapping
     public ResponseEntity<UsuarioResponse> cadastrarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
         Usuario usuarioData = UsuarioMap.mapUsuario(usuarioRequest);
         UsuarioResponse usuarioResponse = usuarioService.processUsuario(usuarioData);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
     }
 
-    @GetMapping(value = "/usuarios")
+    @GetMapping
     public ResponseEntity<List<UsuarioListaResponse>> listarUsuario () {
         List<UsuarioListaResponse> usuarioListaResponse = usuarioListaService.buscaUsuarios();
         return ResponseEntity.ok().body(usuarioListaResponse);
     }
 
-    @GetMapping(value = "/usuarios/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<UsuarioResponse> listarUsuario (@PathVariable String id) {
         UsuarioResponse usuarioResponse = usuarioService.detalhaUsuario(id);
         return ResponseEntity.ok().body(usuarioResponse);
     }
-    @DeleteMapping(value = "/usuarios/{id}")
+    @DeleteMapping(value = "/{id}")
     public void excluirUsuario (@PathVariable String id) {
         usuarioService.excluiUsuario(id);
+    }
 
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<UsuarioResponse> atualizarUsuario (@RequestBody UsuarioRequest usuarioRequest, @PathVariable String id) {
+        Usuario usuarioData = UsuarioAtualizaMap.mapUsuarioAtualiza(usuarioRequest, id);
+        UsuarioResponse usuarioResponse = usuarioService.atualizaUsuario(usuarioData, id);
+        return ResponseEntity.ok().body(usuarioResponse);
     }
 }

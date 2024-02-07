@@ -27,15 +27,21 @@ public class UsuarioService {
     }
 
     public UsuarioResponse detalhaUsuario(String id) {
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
-        if(usuario == null) throw new UsuarioInexistenteException("Usuário não encontrado!");
+        Usuario usuario = verificaUsuario(id);
         return UsuarioMap.mapUsuarioResponse(usuario);
     }
 
     public void excluiUsuario(String id) {
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
-        if(usuario == null) throw new UsuarioInexistenteException("Usuário não encontrado!");
+        Usuario usuario = verificaUsuario(id);
         usuarioRepository.delete(usuario);
+    }
+
+    public UsuarioResponse atualizaUsuario(Usuario usuario, String id) {
+        Validations.verificaDataNascimento(usuario.getDataNascimento());
+        verificaUsuario(id);
+        usuarioRepository.save(usuario);
+        UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuario);
+        return usuarioResponse;
     }
 
     private void verificaDuplicidade(Usuario usuario) {
@@ -54,6 +60,12 @@ public class UsuarioService {
         if(usuarioRepository.existsByEmail(email)) {
             throw new InformacaoDuplicadaException("O Email já está cadastrado!");
         }
+    }
+
+    private Usuario verificaUsuario(String id) {
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if(usuario == null) throw new UsuarioInexistenteException("Usuário não encontrado!");
+        return usuario;
     }
 
 
