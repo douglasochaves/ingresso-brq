@@ -41,4 +41,9 @@ public class UsuarioController {
         UsuarioResponse usuarioResponse = usuarioService.detalhaUsuario(id);
         return ResponseEntity.ok().body(usuarioResponse);
     }
+    @DeleteMapping(value = "/usuarios/{id}")
+    public void excluirUsuario (@PathVariable String id) {
+        usuarioService.excluiUsuario(id);
+
+    }
 }

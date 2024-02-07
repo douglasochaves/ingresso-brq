@@ -32,6 +32,12 @@ public class UsuarioService {
         return UsuarioMap.mapUsuarioResponse(usuario);
     }
 
+    public void excluiUsuario(String id) {
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if(usuario == null) throw new UsuarioInexistenteException("Usuário não encontrado!");
+        usuarioRepository.delete(usuario);
+    }
+
     private void verificaDuplicidade(Usuario usuario) {
         verificaCpfUnico(usuario.getCpf());
         verificaEmailUnico(usuario.getEmail());
