@@ -1,11 +1,12 @@
-package br.com.brq.brqingresso.domain;
+package br.com.brq.brqingresso.domain.usuario;
+
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class EnderecoResponse {
+public class EnderecoRequest {
 
     private String logradouro;
     private String numero;

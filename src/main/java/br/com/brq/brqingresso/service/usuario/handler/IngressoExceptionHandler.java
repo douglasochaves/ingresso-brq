@@ -1,7 +1,7 @@
-package br.com.brq.brqingresso.service.handler;
+package br.com.brq.brqingresso.service.usuario.handler;
 
-import br.com.brq.brqingresso.service.exception.DataNascimentoInvalidaException;
-import br.com.brq.brqingresso.service.exception.InformacaoDuplicadaException;
+import br.com.brq.brqingresso.service.usuario.exception.DataNascimentoInvalidaException;
+import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,4 +1,4 @@
-package br.com.brq.brqingresso.service.exception;
+package br.com.brq.brqingresso.service.usuario.exception;
 
 import lombok.Getter;
 import lombok.Setter;

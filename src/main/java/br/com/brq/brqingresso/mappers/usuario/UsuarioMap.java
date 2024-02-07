@@ -1,9 +1,9 @@
 package br.com.brq.brqingresso.mappers.usuario;
 
-import br.com.brq.brqingresso.domain.EnderecoRequest;
-import br.com.brq.brqingresso.domain.EnderecoResponse;
-import br.com.brq.brqingresso.domain.UsuarioRequest;
-import br.com.brq.brqingresso.domain.UsuarioResponse;
+import br.com.brq.brqingresso.domain.usuario.EnderecoRequest;
+import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
+import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
+import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
 

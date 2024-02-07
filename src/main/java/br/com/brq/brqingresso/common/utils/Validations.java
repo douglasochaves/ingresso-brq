@@ -1,6 +1,6 @@
 package br.com.brq.brqingresso.common.utils;
 
-import br.com.brq.brqingresso.service.exception.DataNascimentoInvalidaException;
+import br.com.brq.brqingresso.service.usuario.exception.DataNascimentoInvalidaException;
 
 import java.time.LocalDate;
 

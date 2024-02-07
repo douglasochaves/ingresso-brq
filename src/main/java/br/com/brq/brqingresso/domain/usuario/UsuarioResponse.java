@@ -1,4 +1,4 @@
-package br.com.brq.brqingresso.domain;
+package br.com.brq.brqingresso.domain.usuario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

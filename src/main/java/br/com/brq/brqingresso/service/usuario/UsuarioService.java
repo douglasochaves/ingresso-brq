@@ -1,9 +1,9 @@
-package br.com.brq.brqingresso.service;
+package br.com.brq.brqingresso.service.usuario;
 
 import br.com.brq.brqingresso.common.utils.Validations;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
-import br.com.brq.brqingresso.service.exception.InformacaoDuplicadaException;
+import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,10 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    public String processUsuario(Usuario usuario) {
+    public void processUsuario(Usuario usuario) {
             Validations.verificaDataNascimento(usuario.getDataNascimento());
             verificaDuplicidade(usuario);
             usuarioRepository.save(usuario);
-            return "";
     }
 
     private void verificaDuplicidade(Usuario usuario) {
