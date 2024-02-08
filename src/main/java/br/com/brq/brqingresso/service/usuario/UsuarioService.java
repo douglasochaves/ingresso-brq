@@ -1,16 +1,17 @@
 package br.com.brq.brqingresso.service.usuario;
 
 import br.com.brq.brqingresso.common.utils.Validations;
+import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
+import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioResponseAtualiza;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
 import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.UsuarioInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -36,12 +37,13 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
-    public UsuarioResponse atualizaUsuario(Usuario usuario, String id) {
-        Validations.verificaDataNascimento(usuario.getDataNascimento());
-        verificaUsuario(id);
-        usuarioRepository.save(usuario);
-        UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuario);
-        return usuarioResponse;
+    public UsuarioResponseAtualiza atualizaUsuario(UsuarioRequest usuarioRequest, String id) {
+        Validations.verificaDataNascimento(usuarioRequest.getDataNascimento());
+        Usuario usuario = verificaUsuario(id);
+        Usuario usuarioData = UsuarioAtualizaMap.mapUsuarioAtualiza(usuarioRequest, usuario, id);
+        usuarioRepository.save(usuarioData);
+        UsuarioResponseAtualiza usuarioResponseAtualiza = UsuarioAtualizaMap.mapUsuarioAtualizaResponse(usuario);
+        return usuarioResponseAtualiza;
     }
 
     private void verificaDuplicidade(Usuario usuario) {

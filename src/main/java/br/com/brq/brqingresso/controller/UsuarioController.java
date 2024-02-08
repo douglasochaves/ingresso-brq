@@ -6,6 +6,7 @@ import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioResponseAtualiza;
 import br.com.brq.brqingresso.service.usuario.UsuarioService;
 import br.com.brq.brqingresso.service.usuariolista.UsuarioListaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class UsuarioController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<UsuarioResponse> atualizarUsuario (@RequestBody UsuarioRequest usuarioRequest, @PathVariable String id) {
-        Usuario usuarioData = UsuarioAtualizaMap.mapUsuarioAtualiza(usuarioRequest, id);
-        UsuarioResponse usuarioResponse = usuarioService.atualizaUsuario(usuarioData, id);
-        return ResponseEntity.ok().body(usuarioResponse);
+    public ResponseEntity<UsuarioResponseAtualiza> atualizarUsuario (@RequestBody UsuarioRequest usuarioRequest, @PathVariable String id) {
+        //Usuario usuarioData = UsuarioAtualizaMap.mapUsuarioAtualiza(usuarioRequest, id);
+        UsuarioResponseAtualiza usuarioResponseAtualiza = usuarioService.atualizaUsuario(usuarioRequest, id);
+        return ResponseEntity.ok().body(usuarioResponseAtualiza);
     }
 }
