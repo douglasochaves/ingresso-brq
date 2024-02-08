@@ -1,11 +1,12 @@
 package br.com.brq.brqingresso.mappers.usuarioatualiza;
 
-import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioResponseAtualiza;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.domain.usuario.EnderecoRequest;
 import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
+import br.com.brq.brqingresso.service.usuario.exception.CampoNuloException;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -14,19 +15,57 @@ import java.time.format.DateTimeFormatter;
 
 public class UsuarioAtualizaMap {
 
-    public static Usuario mapUsuarioAtualiza(UsuarioRequest usuarioRequest, Usuario usuario,  String id){
+    public static Usuario mapUsuarioAtualiza(UsuarioRequest usuarioRequest, Usuario usuario){
+
         Usuario usuarioMap = usuario;
         EnderecoRequest enderecoRequest = usuarioRequest.getEndereco();
 
-        usuarioMap.setNomeCompleto(usuarioRequest.getNomeCompleto());
-        usuarioMap.setApelido(usuarioRequest.getApelido());
-        usuarioMap.setDataNascimento(usuarioRequest.getDataNascimento());
-        usuarioMap.setCelular(usuarioRequest.getCelular());
-        usuarioMap.setGenero(generoUsuario(usuarioRequest.getGenero()));
-        usuarioMap.setDataAtualizacao(LocalDateTime.now());
-        usuarioMap.setEndereco(mapEndereco(enderecoRequest));
+        if(enderecoRequest != null) {
+            mapAtualizaComEndereco(usuarioRequest, usuarioMap, enderecoRequest);
+        } else {
+            mapAtualizaSemEndereco(usuarioRequest, usuarioMap);
+        }
 
         return usuarioMap;
+    }
+
+    private static void mapAtualizaSemEndereco(UsuarioRequest usuarioRequest, Usuario usuarioMap) {
+        if (verificaCampoEnderecoNulo(usuarioRequest.getNomeCompleto()))
+            usuarioMap.setNomeCompleto(usuarioRequest.getNomeCompleto());
+        if (verificaCampoEnderecoNulo(usuarioRequest.getApelido()))
+            usuarioMap.setApelido(usuarioRequest.getApelido());
+        if (verificaCampoEnderecoNulo(usuarioRequest.getDataNascimento()))
+            usuarioMap.setDataNascimento(usuarioRequest.getDataNascimento());
+        if (verificaCampoEnderecoNulo(usuarioRequest.getCelular()))
+            usuarioMap.setCelular(usuarioRequest.getCelular());
+        if (verificaCampoEnderecoNulo(usuarioRequest.getGenero()))
+            usuarioMap.setGenero(generoUsuario(usuarioRequest.getGenero()));
+        usuarioMap.setDataAtualizacao(LocalDateTime.now());
+    }
+
+    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuarioMap, EnderecoRequest enderecoRequest) {
+        if (verificaCampo(usuarioRequest.getNomeCompleto()))
+            usuarioMap.setNomeCompleto(usuarioRequest.getNomeCompleto());
+        if (verificaCampo(usuarioRequest.getApelido()))
+            usuarioMap.setApelido(usuarioRequest.getApelido());
+        if (verificaCampo(usuarioRequest.getDataNascimento()))
+            usuarioMap.setDataNascimento(usuarioRequest.getDataNascimento());
+        if (verificaCampo(usuarioRequest.getCelular()))
+            usuarioMap.setCelular(usuarioRequest.getCelular());
+        if (verificaCampo(usuarioRequest.getGenero()))
+            usuarioMap.setGenero(generoUsuario(usuarioRequest.getGenero()));
+        usuarioMap.setDataAtualizacao(LocalDateTime.now());
+        usuarioMap.setEndereco(mapEndereco(enderecoRequest));
+    }
+
+    private static Boolean verificaCampo(Object campo) {
+        if(campo != null) return true;
+        throw new CampoNuloException("Todos os campos devem estar preenchidos");
+    }
+
+    private static Boolean verificaCampoEnderecoNulo(Object campo) {
+        if(campo != null) return true;
+        return false;
     }
 
     private static Integer generoUsuario(String genero) {
@@ -58,8 +97,8 @@ public class UsuarioAtualizaMap {
         return enderecoMap;
     }
 
-    public static UsuarioResponseAtualiza mapUsuarioAtualizaResponse(Usuario usuario){
-        UsuarioResponseAtualiza usuarioResponseMap = new UsuarioResponseAtualiza();
+    public static UsuarioAtualizaResponse mapUsuarioAtualizaResponse(Usuario usuario){
+        UsuarioAtualizaResponse usuarioResponseMap = new UsuarioAtualizaResponse();
         Endereco endereco = usuario.getEndereco();
 
         ZonedDateTime dataCadastro = ZonedDateTime.of(usuario.getDataCadastro(), ZoneId.systemDefault());

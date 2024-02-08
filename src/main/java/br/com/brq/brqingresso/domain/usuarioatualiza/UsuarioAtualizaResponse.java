@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UsuarioResponseAtualiza {
+public class UsuarioAtualizaResponse {
 
     private String id;
     private String cpf;

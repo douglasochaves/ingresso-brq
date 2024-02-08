@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.service.usuario.handler;
 
+import br.com.brq.brqingresso.service.usuario.exception.CampoNuloException;
 import br.com.brq.brqingresso.service.usuario.exception.DataNascimentoInvalidaException;
 import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.UsuarioInexistenteException;
@@ -33,6 +34,14 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
         CorpoMensagemErroResponse corpoMensagemErroResponse =
                 new CorpoMensagemErroResponse(e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(corpoMensagemErroResponse);
+    }
+
+    @ExceptionHandler(CampoNuloException.class)
+    public static ResponseEntity<CorpoMensagemErroResponse> handleCampoNulo (
+            CampoNuloException e) {
+        CorpoMensagemErroResponse corpoMensagemErroResponse =
+                new CorpoMensagemErroResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);
     }
 
 }
