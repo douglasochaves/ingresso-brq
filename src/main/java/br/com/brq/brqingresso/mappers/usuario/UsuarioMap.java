@@ -7,6 +7,7 @@ import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -49,7 +50,7 @@ public class UsuarioMap {
         }
     }
 
-    private static Endereco mapEndereco(EnderecoRequest endereco){
+    private static Endereco mapEndereco(@Valid EnderecoRequest endereco){
         Endereco enderecoMap = new Endereco();
 
         enderecoMap.setLogradouro(endereco.getLogradouro());
@@ -59,6 +60,7 @@ public class UsuarioMap {
         enderecoMap.setEstado(endereco.getEstado());
         enderecoMap.setPais(endereco.getPais());
         enderecoMap.setCep(endereco.getCep());
+        enderecoMap.setComplemento(endereco.getComplemento());
 
         return enderecoMap;
     }
@@ -111,6 +113,7 @@ public class UsuarioMap {
         enderecoResponseMap.setEstado(endereco.getEstado());
         enderecoResponseMap.setPais(endereco.getPais());
         enderecoResponseMap.setCep(endereco.getCep());
+        enderecoResponseMap.setComplemento(endereco.getComplemento());
 
         return enderecoResponseMap;
     }

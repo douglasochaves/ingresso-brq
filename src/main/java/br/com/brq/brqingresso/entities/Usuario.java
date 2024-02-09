@@ -1,7 +1,7 @@
 package br.com.brq.brqingresso.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class Usuario {
 
     @Id
+    @NotNull
     @Column(name = "id", unique = true)
     private String id;
     @Column(name = "cpf", unique = true)

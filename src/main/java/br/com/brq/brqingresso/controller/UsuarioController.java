@@ -3,12 +3,10 @@ package br.com.brq.brqingresso.controller;
 import br.com.brq.brqingresso.domain.trocasenha.AlteraSenhaRequest;
 import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
 import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
-import br.com.brq.brqingresso.domain.usuariolista.UsuarioListaResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
-import br.com.brq.brqingresso.entities.Usuario;
-import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
+import br.com.brq.brqingresso.domain.usuariolista.UsuarioListaResponse;
 import br.com.brq.brqingresso.service.usuario.UsuarioService;
 import br.com.brq.brqingresso.service.usuariolista.UsuarioListaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,9 +27,8 @@ public class UsuarioController {
     private UsuarioListaService usuarioListaService;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponse> cadastrarUsuario (@RequestBody UsuarioRequest usuarioRequest) {
-        Usuario usuarioData = UsuarioMap.mapUsuario(usuarioRequest);
-        UsuarioResponse usuarioResponse = usuarioService.processUsuario(usuarioData);
+    public ResponseEntity<UsuarioResponse> cadastrarUsuario (@Valid @RequestBody UsuarioRequest usuarioRequest) {
+        UsuarioResponse usuarioResponse = usuarioService.processUsuario(usuarioRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
     }
 
@@ -52,7 +50,7 @@ public class UsuarioController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<UsuarioAtualizaResponse> atualizarUsuario (@RequestBody UsuarioRequest usuarioRequest, @PathVariable String id) {
+    public ResponseEntity<UsuarioAtualizaResponse> atualizarUsuario (@Valid @RequestBody UsuarioRequest usuarioRequest, @PathVariable String id) {
         UsuarioAtualizaResponse usuarioResponseAtualiza = usuarioService.atualizaUsuario(usuarioRequest, id);
         return ResponseEntity.ok().body(usuarioResponseAtualiza);
     }
@@ -64,12 +62,12 @@ public class UsuarioController {
     }
 
     @PostMapping(value = "/{id}/senhas")
-    public ResponseEntity<Void> novaSenha (@RequestBody NovaSenhaRequest novaSenhaRequest, @PathVariable String id) {
+    public ResponseEntity<Void> novaSenha (@Valid @RequestBody NovaSenhaRequest novaSenhaRequest, @PathVariable String id) {
         usuarioService.novaSenha(novaSenhaRequest, id);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @PutMapping(value = "/{id}/senhas")
-    public ResponseEntity<Void> alterarSenha (@RequestBody AlteraSenhaRequest alteraSenhaRequest, @PathVariable String id) {
+    public ResponseEntity<Void> alterarSenha (@Valid @RequestBody AlteraSenhaRequest alteraSenhaRequest, @PathVariable String id) {
         usuarioService.alteraSenha(alteraSenhaRequest, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

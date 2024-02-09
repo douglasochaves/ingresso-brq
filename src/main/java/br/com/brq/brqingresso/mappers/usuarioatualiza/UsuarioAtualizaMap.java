@@ -8,6 +8,7 @@ import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.service.usuario.exception.CampoNuloException;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -43,7 +44,7 @@ public class UsuarioAtualizaMap {
         usuario.setDataAtualizacao(LocalDateTime.now());
     }
 
-    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuario, EnderecoRequest enderecoRequest) {
+    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuario, @Valid EnderecoRequest enderecoRequest) {
         mapAtualizaSemEndereco(usuarioRequest, usuario);
         usuario.setEndereco(mapEndereco(enderecoRequest));
     }
@@ -73,7 +74,7 @@ public class UsuarioAtualizaMap {
         }
     }
 
-    private static Endereco mapEndereco(EnderecoRequest endereco){
+    private static Endereco mapEndereco(@Valid EnderecoRequest endereco){
         Endereco enderecoMap = new Endereco();
 
         enderecoMap.setLogradouro(endereco.getLogradouro());
@@ -83,6 +84,7 @@ public class UsuarioAtualizaMap {
         enderecoMap.setEstado(endereco.getEstado());
         enderecoMap.setPais(endereco.getPais());
         enderecoMap.setCep(endereco.getCep());
+        enderecoMap.setComplemento(endereco.getComplemento());
 
         return enderecoMap;
     }
@@ -138,6 +140,7 @@ public class UsuarioAtualizaMap {
         enderecoResponseMap.setEstado(endereco.getEstado());
         enderecoResponseMap.setPais(endereco.getPais());
         enderecoResponseMap.setCep(endereco.getCep());
+        enderecoResponseMap.setComplemento(enderecoResponseMap.getComplemento());
 
         return enderecoResponseMap;
     }

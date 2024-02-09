@@ -14,4 +14,5 @@ public class EnderecoResponse {
     private String estado;
     private String pais;
     private String cep;
+    private String complemento;
 }

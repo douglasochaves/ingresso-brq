@@ -17,7 +17,9 @@ import br.com.brq.brqingresso.service.usuario.exception.InformacaoIncompativelEx
 import br.com.brq.brqingresso.service.usuario.exception.UsuarioInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Service
@@ -26,12 +28,13 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    public UsuarioResponse processUsuario(Usuario usuario) {
-        Validations.verificaDataNascimento(usuario.getDataNascimento());
-        verificaDuplicidade(usuario);
-        usuarioRepository.save(usuario);
-        UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuario);
-        return usuarioResponse;
+    public UsuarioResponse processUsuario(UsuarioRequest usuarioRequest) {
+            Usuario usuario = UsuarioMap.mapUsuario(usuarioRequest);
+            Validations.verificaDataNascimento(usuario.getDataNascimento());
+            verificaDuplicidade(usuario);
+            usuarioRepository.save(usuario);
+            UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuario);
+            return usuarioResponse;
     }
 
     public UsuarioResponse detalhaUsuario(String id) {
@@ -109,11 +112,4 @@ public class UsuarioService {
             throw new InformacaoIncompativelException("A senha informada não corresponde com a atual");
         }
     }
-
-
-
-
-
-
-
 }
