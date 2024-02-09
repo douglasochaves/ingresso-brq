@@ -1,6 +1,7 @@
 package br.com.brq.brqingresso.service.usuario;
 
 import br.com.brq.brqingresso.common.utils.Validations;
+import br.com.brq.brqingresso.domain.trocasenha.AlteraSenhaRequest;
 import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
 import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
@@ -12,6 +13,7 @@ import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
 import br.com.brq.brqingresso.service.usuario.exception.FormatoCodigoException;
 import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
+import br.com.brq.brqingresso.service.usuario.exception.InformacaoIncompativelException;
 import br.com.brq.brqingresso.service.usuario.exception.UsuarioInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +63,13 @@ public class UsuarioService {
     public void novaSenha(NovaSenhaRequest novaSenhaRequest, String id) {
         Usuario usuario = verificaUsuario(id);
         verificaCodigoSeguranca(novaSenhaRequest.getCodigoSeguranca());
-        usuario.setSenha(novaSenhaRequest.getNovaSenha());
+    }
+
+    public void alteraSenha(AlteraSenhaRequest alteraSenhaRequest, String id) {
+        Usuario usuario = verificaUsuario(id);
+        verificaSenhaAtual(usuario, alteraSenhaRequest.getSenhaAtual());
+        usuario.setSenha(alteraSenhaRequest.getNovaSenha());
+        usuarioRepository.save(usuario);
     }
 
     private void verificaDuplicidade(Usuario usuario) {
@@ -95,6 +103,14 @@ public class UsuarioService {
             throw new FormatoCodigoException("O código fornecido não é um UUID");
         }
     }
+
+    private void verificaSenhaAtual(Usuario usuario, String senhaAtual) {
+        if(!senhaAtual.equals(usuario.getSenha())){
+            throw new InformacaoIncompativelException("A senha informada não corresponde com a atual");
+        }
+    }
+
+
 
 
 

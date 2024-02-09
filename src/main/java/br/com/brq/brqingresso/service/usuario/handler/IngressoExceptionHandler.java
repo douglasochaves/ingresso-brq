@@ -42,8 +42,16 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(FormatoCodigoException.class)
-    public static ResponseEntity<CorpoMensagemErroResponse> handleCampoNulo (
+    public static ResponseEntity<CorpoMensagemErroResponse> handleFormatoCodigo (
             FormatoCodigoException e) {
+        CorpoMensagemErroResponse corpoMensagemErroResponse =
+                new CorpoMensagemErroResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);
+    }
+
+    @ExceptionHandler(InformacaoIncompativelException.class)
+    public static ResponseEntity<CorpoMensagemErroResponse> handleInformacaoIncompativel (
+            InformacaoIncompativelException e) {
         CorpoMensagemErroResponse corpoMensagemErroResponse =
                 new CorpoMensagemErroResponse(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);

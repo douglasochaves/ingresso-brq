@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.controller;
 
+import br.com.brq.brqingresso.domain.trocasenha.AlteraSenhaRequest;
 import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
 import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
 import br.com.brq.brqingresso.domain.usuariolista.UsuarioListaResponse;
@@ -47,7 +48,7 @@ public class UsuarioController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> excluirUsuario (@PathVariable String id) {
         usuarioService.excluiUsuario(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping(value = "/{id}")
@@ -67,5 +68,11 @@ public class UsuarioController {
         usuarioService.novaSenha(novaSenhaRequest, id);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+    @PutMapping(value = "/{id}/senhas")
+    public ResponseEntity<Void> alterarSenha (@RequestBody AlteraSenhaRequest alteraSenhaRequest, @PathVariable String id) {
+        usuarioService.alteraSenha(alteraSenhaRequest, id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 
 }
