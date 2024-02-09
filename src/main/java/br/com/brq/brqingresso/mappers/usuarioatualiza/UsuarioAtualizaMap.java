@@ -29,33 +29,23 @@ public class UsuarioAtualizaMap {
         return usuarioMap;
     }
 
-    private static void mapAtualizaSemEndereco(UsuarioRequest usuarioRequest, Usuario usuarioMap) {
+    private static void mapAtualizaSemEndereco(UsuarioRequest usuarioRequest, Usuario usuario) {
         if (verificaCampoEnderecoNulo(usuarioRequest.getNomeCompleto()))
-            usuarioMap.setNomeCompleto(usuarioRequest.getNomeCompleto());
+            usuario.setNomeCompleto(usuarioRequest.getNomeCompleto());
         if (verificaCampoEnderecoNulo(usuarioRequest.getApelido()))
-            usuarioMap.setApelido(usuarioRequest.getApelido());
+            usuario.setApelido(usuarioRequest.getApelido());
         if (verificaCampoEnderecoNulo(usuarioRequest.getDataNascimento()))
-            usuarioMap.setDataNascimento(usuarioRequest.getDataNascimento());
+            usuario.setDataNascimento(usuarioRequest.getDataNascimento());
         if (verificaCampoEnderecoNulo(usuarioRequest.getCelular()))
-            usuarioMap.setCelular(usuarioRequest.getCelular());
+            usuario.setCelular(usuarioRequest.getCelular());
         if (verificaCampoEnderecoNulo(usuarioRequest.getGenero()))
-            usuarioMap.setGenero(generoUsuario(usuarioRequest.getGenero()));
-        usuarioMap.setDataAtualizacao(LocalDateTime.now());
+            usuario.setGenero(generoUsuario(usuarioRequest.getGenero()));
+        usuario.setDataAtualizacao(LocalDateTime.now());
     }
 
-    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuarioMap, EnderecoRequest enderecoRequest) {
-        if (verificaCampo(usuarioRequest.getNomeCompleto()))
-            usuarioMap.setNomeCompleto(usuarioRequest.getNomeCompleto());
-        if (verificaCampo(usuarioRequest.getApelido()))
-            usuarioMap.setApelido(usuarioRequest.getApelido());
-        if (verificaCampo(usuarioRequest.getDataNascimento()))
-            usuarioMap.setDataNascimento(usuarioRequest.getDataNascimento());
-        if (verificaCampo(usuarioRequest.getCelular()))
-            usuarioMap.setCelular(usuarioRequest.getCelular());
-        if (verificaCampo(usuarioRequest.getGenero()))
-            usuarioMap.setGenero(generoUsuario(usuarioRequest.getGenero()));
-        usuarioMap.setDataAtualizacao(LocalDateTime.now());
-        usuarioMap.setEndereco(mapEndereco(enderecoRequest));
+    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuario, EnderecoRequest enderecoRequest) {
+        mapAtualizaSemEndereco(usuarioRequest, usuario);
+        usuario.setEndereco(mapEndereco(enderecoRequest));
     }
 
     private static Boolean verificaCampo(Object campo) {

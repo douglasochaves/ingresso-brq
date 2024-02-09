@@ -1,17 +1,22 @@
 package br.com.brq.brqingresso.service.usuario;
 
 import br.com.brq.brqingresso.common.utils.Validations;
+import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
+import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
-import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
+import br.com.brq.brqingresso.service.usuario.exception.FormatoCodigoException;
 import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.UsuarioInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -46,6 +51,19 @@ public class UsuarioService {
         return usuarioResponseAtualiza;
     }
 
+    public GeraHashTrocaSenhaResponse geraHashTrocaSenha(String id) {
+        verificaUsuario(id);
+        GeraHashTrocaSenhaResponse hashTrocaSenhaResponse = new GeraHashTrocaSenhaResponse();
+        hashTrocaSenhaResponse.setId(UUID.randomUUID().toString());
+        return hashTrocaSenhaResponse;
+    }
+
+    public void novaSenha(NovaSenhaRequest novaSenhaRequest, String id) {
+        Usuario usuario = verificaUsuario(id);
+        verificaCodigoSeguranca(novaSenhaRequest.getCodigoSeguranca());
+        usuario.setSenha(novaSenhaRequest.getNovaSenha());
+    }
+
     private void verificaDuplicidade(Usuario usuario) {
         verificaCpfUnico(usuario.getCpf());
         verificaEmailUnico(usuario.getEmail());
@@ -68,6 +86,14 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         if(usuario == null) throw new UsuarioInexistenteException("Usuário não encontrado!");
         return usuario;
+    }
+
+    private void verificaCodigoSeguranca(String codigo) {
+        try{
+            UUID.fromString(codigo);
+        } catch (IllegalArgumentException e) {
+            throw new FormatoCodigoException("O código fornecido não é um UUID");
+        }
     }
 
 

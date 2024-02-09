@@ -1,5 +1,7 @@
 package br.com.brq.brqingresso.controller;
 
+import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
+import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
 import br.com.brq.brqingresso.domain.usuariolista.UsuarioListaResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
@@ -43,8 +45,9 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioResponse);
     }
     @DeleteMapping(value = "/{id}")
-    public void excluirUsuario (@PathVariable String id) {
+    public ResponseEntity<Void> excluirUsuario (@PathVariable String id) {
         usuarioService.excluiUsuario(id);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping(value = "/{id}")
@@ -52,4 +55,17 @@ public class UsuarioController {
         UsuarioAtualizaResponse usuarioResponseAtualiza = usuarioService.atualizaUsuario(usuarioRequest, id);
         return ResponseEntity.ok().body(usuarioResponseAtualiza);
     }
+
+    @GetMapping(value = "/{id}/senhas")
+    public ResponseEntity<GeraHashTrocaSenhaResponse> gerarHashTrocaSenha (@PathVariable String id) {
+        GeraHashTrocaSenhaResponse hashTrocaSenha = usuarioService.geraHashTrocaSenha(id);
+        return ResponseEntity.ok().body(hashTrocaSenha);
+    }
+
+    @PostMapping(value = "/{id}/senhas")
+    public ResponseEntity<Void> novaSenha (@RequestBody NovaSenhaRequest novaSenhaRequest, @PathVariable String id) {
+        usuarioService.novaSenha(novaSenhaRequest, id);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
 }

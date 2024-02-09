@@ -1,9 +1,6 @@
 package br.com.brq.brqingresso.service.usuario.handler;
 
-import br.com.brq.brqingresso.service.usuario.exception.CampoNuloException;
-import br.com.brq.brqingresso.service.usuario.exception.DataNascimentoInvalidaException;
-import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
-import br.com.brq.brqingresso.service.usuario.exception.UsuarioInexistenteException;
+import br.com.brq.brqingresso.service.usuario.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,6 +36,14 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CampoNuloException.class)
     public static ResponseEntity<CorpoMensagemErroResponse> handleCampoNulo (
             CampoNuloException e) {
+        CorpoMensagemErroResponse corpoMensagemErroResponse =
+                new CorpoMensagemErroResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);
+    }
+
+    @ExceptionHandler(FormatoCodigoException.class)
+    public static ResponseEntity<CorpoMensagemErroResponse> handleCampoNulo (
+            FormatoCodigoException e) {
         CorpoMensagemErroResponse corpoMensagemErroResponse =
                 new CorpoMensagemErroResponse(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);
