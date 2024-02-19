@@ -50,7 +50,7 @@ public class UsuarioMap {
         }
     }
 
-    private static Endereco mapEndereco(@Valid EnderecoRequest endereco){
+    private static Endereco mapEndereco(EnderecoRequest endereco){
         Endereco enderecoMap = new Endereco();
 
         enderecoMap.setLogradouro(endereco.getLogradouro());

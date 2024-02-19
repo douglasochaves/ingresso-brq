@@ -1,5 +1,8 @@
 package br.com.brq.brqingresso.domain.usuario;
 
+import br.com.brq.brqingresso.common.validators.annotations.AnoMesDia;
+import br.com.brq.brqingresso.common.validators.annotations.CelularBrasil;
+import br.com.brq.brqingresso.common.validators.annotations.QuantidadeDigitos;
 import br.com.brq.brqingresso.common.validators.annotations.SemTresLetrasConsecutivas;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 
@@ -45,10 +49,13 @@ public class UsuarioRequest {
 
     @NotBlank
     @NotNull
+    @AnoMesDia
     @JsonProperty("data_nascimento")
     private String dataNascimento;
 
     @NotNull
+    @QuantidadeDigitos(value = 11)
+    @CelularBrasil
     private Long celular;
 
     @Size(max = 2)
@@ -56,5 +63,6 @@ public class UsuarioRequest {
     @NotNull
     private String genero;
 
+    @Valid
     private EnderecoRequest endereco;
 }

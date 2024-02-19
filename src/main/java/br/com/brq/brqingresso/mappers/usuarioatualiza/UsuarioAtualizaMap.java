@@ -44,7 +44,7 @@ public class UsuarioAtualizaMap {
         usuario.setDataAtualizacao(LocalDateTime.now());
     }
 
-    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuario, @Valid EnderecoRequest enderecoRequest) {
+    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuario, EnderecoRequest enderecoRequest) {
         mapAtualizaSemEndereco(usuarioRequest, usuario);
         usuario.setEndereco(mapEndereco(enderecoRequest));
     }
@@ -74,7 +74,7 @@ public class UsuarioAtualizaMap {
         }
     }
 
-    private static Endereco mapEndereco(@Valid EnderecoRequest endereco){
+    private static Endereco mapEndereco(EnderecoRequest endereco){
         Endereco enderecoMap = new Endereco();
 
         enderecoMap.setLogradouro(endereco.getLogradouro());

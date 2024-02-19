@@ -1,6 +1,6 @@
 package br.com.brq.brqingresso.common.validators.annotations;
 
-import br.com.brq.brqingresso.common.validators.validatedby.SemTresLetrasConsecutivasValidator;
+import br.com.brq.brqingresso.common.validators.validatedby.AnoMesDiaValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = SemTresLetrasConsecutivasValidator.class)
-public @interface SemTresLetrasConsecutivas {
+@Constraint(validatedBy = AnoMesDiaValidator.class)
+public @interface AnoMesDia {
     String message() default "";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
