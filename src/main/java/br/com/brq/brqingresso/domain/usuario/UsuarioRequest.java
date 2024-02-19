@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.domain.usuario;
 
+import br.com.brq.brqingresso.common.validators.annotations.SemTresLetrasConsecutivas;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -7,10 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 
 @Getter
@@ -31,6 +29,7 @@ public class UsuarioRequest {
     private String email;
 
     @Size(min = 2, max = 100)
+    @SemTresLetrasConsecutivas
     @NotBlank
     @NotNull
     @JsonProperty("nome_completo")
@@ -46,10 +45,10 @@ public class UsuarioRequest {
 
     @NotBlank
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonProperty("data_nascimento")
     private String dataNascimento;
 
+    @NotNull
     private Long celular;
 
     @Size(max = 2)
