@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.service.usuario;
 
+import br.com.brq.brqingresso.common.constants.CamposConstants;
 import br.com.brq.brqingresso.common.utils.Validations;
 import br.com.brq.brqingresso.domain.trocasenha.AlteraSenhaRequest;
 import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
@@ -11,15 +12,13 @@ import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
-import br.com.brq.brqingresso.service.usuario.exception.FormatoCodigoException;
-import br.com.brq.brqingresso.service.usuario.exception.InformacaoDuplicadaException;
-import br.com.brq.brqingresso.service.usuario.exception.InformacaoIncompativelException;
-import br.com.brq.brqingresso.service.usuario.exception.UsuarioInexistenteException;
+import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoException;
+import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
+import br.com.brq.brqingresso.service.usuario.exception.badrequest.InformacaoIncompativelException;
+import br.com.brq.brqingresso.service.usuario.exception.errors.UsuarioInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import java.util.UUID;
 
 @Service
@@ -83,13 +82,17 @@ public class UsuarioService {
 
     private void verificaCpfUnico(String cpf) throws InformacaoDuplicadaException {
         if(usuarioRepository.existsByCpf(cpf)) {
-            throw new InformacaoDuplicadaException("O CPF já está cadastrado!");
+            throw new InformacaoDuplicadaException(
+                    "O usuário não pode ser cadastrado, pois o CPF já se encontra na base de dados."
+            );
         }
     }
 
     private void verificaEmailUnico(String email) throws InformacaoDuplicadaException {
         if(usuarioRepository.existsByEmail(email)) {
-            throw new InformacaoDuplicadaException("O Email já está cadastrado!");
+            throw new InformacaoDuplicadaException(
+                    "O usuário não pode ser cadastrado, pois o E-mail já se encontra na base de dados."
+            );
         }
     }
 
@@ -105,16 +108,20 @@ public class UsuarioService {
         try{
             UUID.fromString(codigo);
         } catch (IllegalArgumentException e) {
-            throw new FormatoCodigoException("O código fornecido não é um UUID");
+            throw new FormatoCodigoException(
+                    "Formato do código de segurança inválido.",
+                    CamposConstants.CODIGO_SEGURANCA,
+                    "O código fornecido não é um UUID."
+            );
         }
     }
 
     private void verificaSenhaAtual(Usuario usuario, String senhaAtual) {
         if(!senhaAtual.equals(usuario.getSenha())){
             throw new InformacaoIncompativelException(
-                    "A senha informada não corresponde com a atual",
-                    "senha",
-                    "Tente novamente com a senha correta"
+                    "Senha inválida",
+                    CamposConstants.SENHA,
+                    "A senha informada não corresponde com a atual."
             );
         }
     }

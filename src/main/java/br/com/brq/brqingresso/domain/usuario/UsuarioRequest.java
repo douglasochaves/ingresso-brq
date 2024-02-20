@@ -4,7 +4,6 @@ import br.com.brq.brqingresso.common.validators.annotations.AnoMesDia;
 import br.com.brq.brqingresso.common.validators.annotations.CelularBrasil;
 import br.com.brq.brqingresso.common.validators.annotations.QuantidadeDigitos;
 import br.com.brq.brqingresso.common.validators.annotations.SemTresLetrasConsecutivas;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,10 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Getter

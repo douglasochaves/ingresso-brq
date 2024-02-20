@@ -1,6 +1,7 @@
 package br.com.brq.brqingresso.common.utils;
 
-import br.com.brq.brqingresso.service.usuario.exception.DataNascimentoInvalidaException;
+import br.com.brq.brqingresso.common.constants.CamposConstants;
+import br.com.brq.brqingresso.service.usuario.exception.badrequest.DataNascimentoInvalidaException;
 
 import java.time.LocalDate;
 
@@ -10,7 +11,11 @@ public class Validations {
         if(dataNascimento == null) return;
         LocalDate dataNascimentoDate = Helpers.convertStringToDate(dataNascimento);
         if(LocalDate.now().isAfter(dataNascimentoDate)) return;
-        throw new DataNascimentoInvalidaException("A Data de nascimento deve ser anterior ao dia atual");
+        throw new DataNascimentoInvalidaException(
+                "Data de nascimento inválida.",
+                CamposConstants.DATA_NASCIMENTO,
+                "A Data de nascimento deve ser anterior ao dia atual."
+        );
     }
 
 

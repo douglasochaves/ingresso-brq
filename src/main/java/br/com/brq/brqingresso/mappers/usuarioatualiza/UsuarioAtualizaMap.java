@@ -7,9 +7,7 @@ import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
-import br.com.brq.brqingresso.service.usuario.exception.CampoNuloException;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -48,11 +46,6 @@ public class UsuarioAtualizaMap {
     private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuario, EnderecoRequest enderecoRequest) {
         mapAtualizaSemEndereco(usuarioRequest, usuario);
         usuario.setEndereco(mapEndereco(enderecoRequest));
-    }
-
-    private static Boolean verificaCampo(Object campo) {
-        if(campo != null) return true;
-        throw new CampoNuloException("Todos os campos devem estar preenchidos");
     }
 
     private static Boolean verificaCampoEnderecoNulo(Object campo) {
