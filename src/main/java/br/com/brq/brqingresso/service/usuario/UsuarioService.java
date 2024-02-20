@@ -95,7 +95,9 @@ public class UsuarioService {
 
     private Usuario verificaUsuario(String id) {
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
-        if(usuario == null) throw new UsuarioInexistenteException("Usuário não encontrado!");
+        if(usuario == null) throw new UsuarioInexistenteException(
+                "O usuario com o id " + id + " não foi encontrado na base de dados!"
+        );
         return usuario;
     }
 
@@ -109,7 +111,11 @@ public class UsuarioService {
 
     private void verificaSenhaAtual(Usuario usuario, String senhaAtual) {
         if(!senhaAtual.equals(usuario.getSenha())){
-            throw new InformacaoIncompativelException("A senha informada não corresponde com a atual");
+            throw new InformacaoIncompativelException(
+                    "A senha informada não corresponde com a atual",
+                    "senha",
+                    "Tente novamente com a senha correta"
+            );
         }
     }
 }

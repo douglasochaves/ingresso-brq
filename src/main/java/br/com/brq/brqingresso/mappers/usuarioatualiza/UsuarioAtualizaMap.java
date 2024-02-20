@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.mappers.usuarioatualiza;
 
+import br.com.brq.brqingresso.common.utils.Helpers;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.domain.usuario.EnderecoRequest;
 import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
@@ -94,11 +95,9 @@ public class UsuarioAtualizaMap {
         Endereco endereco = usuario.getEndereco();
 
         ZonedDateTime dataCadastro = ZonedDateTime.of(usuario.getDataCadastro(), ZoneId.systemDefault());
-        ZonedDateTime dataAtualizacao = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
         String dataCadastroString = dataCadastro.format(formatter);
-        String dataAtualizacaoString = dataAtualizacao.format(formatter);
 
         usuarioResponseMap.setId(usuario.getId());
         usuarioResponseMap.setCpf(usuario.getCpf());
@@ -109,7 +108,7 @@ public class UsuarioAtualizaMap {
         usuarioResponseMap.setCelular(usuario.getCelular());
         usuarioResponseMap.setGenero(generoUsuarioResponse(usuario.getGenero()));
         usuarioResponseMap.setDataCadastro(dataCadastroString);
-        usuarioResponseMap.setDataAtualizacao(dataAtualizacaoString);
+        usuarioResponseMap.setDataAtualizacao(Helpers.dataHoraAtualFormatada());
         usuarioResponseMap.setEndereco(mapEnderecoResponse(endereco));
 
         return usuarioResponseMap;

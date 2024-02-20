@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.mappers.usuario;
 
+import br.com.brq.brqingresso.common.utils.Helpers;
 import br.com.brq.brqingresso.domain.usuario.EnderecoRequest;
 import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
@@ -7,11 +8,7 @@ import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class UsuarioMap {
@@ -69,11 +66,6 @@ public class UsuarioMap {
         UsuarioResponse usuarioResponseMap = new UsuarioResponse();
         Endereco endereco = usuario.getEndereco();
 
-        ZonedDateTime zonedDateTime = ZonedDateTime.of(usuario.getDataCadastro(), ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
-
-        String dataCadastroString = zonedDateTime.format(formatter);
-
         usuarioResponseMap.setId(usuario.getId());
         usuarioResponseMap.setCpf(usuario.getCpf());
         usuarioResponseMap.setEmail(usuario.getEmail());
@@ -82,7 +74,7 @@ public class UsuarioMap {
         usuarioResponseMap.setDataNascimento(usuario.getDataNascimento());
         usuarioResponseMap.setCelular(usuario.getCelular());
         usuarioResponseMap.setGenero(generoUsuarioResponse(usuario.getGenero()));
-        usuarioResponseMap.setDataCadastro(dataCadastroString);
+        usuarioResponseMap.setDataCadastro(Helpers.dataHoraAtualFormatada());
         usuarioResponseMap.setEndereco(mapEnderecoResponse(endereco));
 
         return usuarioResponseMap;
