@@ -34,6 +34,10 @@ public class Usuario {
     private LocalDateTime dataCadastro;
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+    @Column(name = "codigo_seguranca")
+    private String codigoSeguranca;
+    @Column(name = "data_hora_codigo_seguranca")
+    private String dataHoraCodigoSeguranca;
 
     @Embedded
     private Endereco endereco;

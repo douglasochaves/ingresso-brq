@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.domain.trocasenha;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,5 +8,6 @@ import lombok.Setter;
 @Setter
 public class GeraHashTrocaSenhaResponse {
 
-    private String id;
+    @JsonProperty("codigo_seguranca")
+    private String codigoSeguranca;
 }

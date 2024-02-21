@@ -18,6 +18,12 @@ public class Helpers {
         return date;
     }
 
+    public static LocalDateTime convertStringToDateTime(String string) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+        LocalDateTime dateTime = LocalDateTime.parse(string, formatter);
+        return dateTime;
+    }
+
     public static Integer convertStringToInt(String string) {
         return Integer.parseInt(string);
     }

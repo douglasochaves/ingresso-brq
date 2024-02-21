@@ -4,7 +4,7 @@ import br.com.brq.brqingresso.common.utils.Helpers;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.BadRequestException;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.DataNascimentoInvalidaException;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoException;
-import br.com.brq.brqingresso.service.usuario.exception.badrequest.InformacaoIncompativelException;
+import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.ErrorsException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.UsuarioInexistenteException;
@@ -37,6 +37,13 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(corpoMensagemErroResponse);
     }
 
+    @ExceptionHandler(InformacaoIncompativelException.class)
+    public static ResponseEntity<CorpoMensagemErroResponse> handleInformacaoIncompativel (
+            InformacaoIncompativelException e) {
+        CorpoMensagemErroResponse corpoMensagemErroResponse = getCorpoMensagemErroResponse(e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);
+    }
+
     private static CorpoMensagemErroResponse getCorpoMensagemErroResponse(ErrorsException e) {
         CorpoMensagemErroResponse corpoMensagemErroResponse =
                 new CorpoMensagemErroResponse(
@@ -58,13 +65,6 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(FormatoCodigoException.class)
     public static ResponseEntity<CorpoMensagemBadRequestResponse> handleFormatoCodigo (
             FormatoCodigoException e) {
-        CorpoMensagemBadRequestResponse corpoMensagemBadRequestResponse = getCorpoMensagemBadRequestResponse(e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemBadRequestResponse);
-    }
-
-    @ExceptionHandler(InformacaoIncompativelException.class)
-    public static ResponseEntity<CorpoMensagemBadRequestResponse> handleInformacaoIncompativel (
-            InformacaoIncompativelException e) {
         CorpoMensagemBadRequestResponse corpoMensagemBadRequestResponse = getCorpoMensagemBadRequestResponse(e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemBadRequestResponse);
     }
