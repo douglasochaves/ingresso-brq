@@ -3,9 +3,11 @@ package br.com.brq.brqingresso.service.usuario;
 import br.com.brq.brqingresso.common.constants.CamposConstants;
 import br.com.brq.brqingresso.common.utils.Helpers;
 import br.com.brq.brqingresso.common.utils.Validations;
+import br.com.brq.brqingresso.domain.cep.CepResponse;
 import br.com.brq.brqingresso.domain.trocasenha.AlteraSenhaRequest;
 import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
 import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
+import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
@@ -13,6 +15,7 @@ import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
+import br.com.brq.brqingresso.service.cep.CepClient;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
@@ -29,6 +32,9 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    CepClient cepClient;
 
     public UsuarioResponse processUsuario(UsuarioRequest usuarioRequest) {
             Usuario usuario = UsuarioMap.mapUsuario(usuarioRequest);

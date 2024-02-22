@@ -1,8 +1,10 @@
 package br.com.brq.brqingresso.controller;
 
+import br.com.brq.brqingresso.domain.cep.CepResponse;
 import br.com.brq.brqingresso.domain.trocasenha.AlteraSenhaRequest;
 import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
 import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
+import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
