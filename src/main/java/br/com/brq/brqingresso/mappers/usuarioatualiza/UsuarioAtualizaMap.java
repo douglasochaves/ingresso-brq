@@ -1,10 +1,11 @@
 package br.com.brq.brqingresso.mappers.usuarioatualiza;
 
 import br.com.brq.brqingresso.common.utils.Helpers;
-import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
+import br.com.brq.brqingresso.domain.cep.CepResponse;
 import br.com.brq.brqingresso.domain.usuario.EnderecoRequest;
 import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
-import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaRequest;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.entities.Endereco;
 import br.com.brq.brqingresso.entities.Usuario;
 
@@ -15,13 +16,13 @@ import java.time.format.DateTimeFormatter;
 
 public class UsuarioAtualizaMap {
 
-    public static Usuario mapUsuarioAtualiza(UsuarioRequest usuarioRequest, Usuario usuario){
+    public static Usuario mapUsuarioAtualiza(UsuarioAtualizaRequest usuarioRequest, Usuario usuario, CepResponse cepResponse){
 
         Usuario usuarioMap = usuario;
         EnderecoRequest enderecoRequest = usuarioRequest.getEndereco();
 
         if(enderecoRequest != null) {
-            mapAtualizaComEndereco(usuarioRequest, usuarioMap, enderecoRequest);
+            mapAtualizaComEndereco(usuarioRequest, usuarioMap, enderecoRequest, cepResponse);
         } else {
             mapAtualizaSemEndereco(usuarioRequest, usuarioMap);
         }
@@ -29,7 +30,7 @@ public class UsuarioAtualizaMap {
         return usuarioMap;
     }
 
-    private static void mapAtualizaSemEndereco(UsuarioRequest usuarioRequest, Usuario usuario) {
+    private static void mapAtualizaSemEndereco(UsuarioAtualizaRequest usuarioRequest, Usuario usuario) {
         if (verificaCampoEnderecoNulo(usuarioRequest.getNomeCompleto()))
             usuario.setNomeCompleto(usuarioRequest.getNomeCompleto());
         if (verificaCampoEnderecoNulo(usuarioRequest.getApelido()))
@@ -43,9 +44,11 @@ public class UsuarioAtualizaMap {
         usuario.setDataAtualizacao(LocalDateTime.now());
     }
 
-    private static void mapAtualizaComEndereco (UsuarioRequest usuarioRequest, Usuario usuario, EnderecoRequest enderecoRequest) {
+    private static void mapAtualizaComEndereco (
+            UsuarioAtualizaRequest usuarioRequest, Usuario usuario, EnderecoRequest enderecoRequest, CepResponse cepResponse
+    ) {
         mapAtualizaSemEndereco(usuarioRequest, usuario);
-        usuario.setEndereco(mapEndereco(enderecoRequest));
+        usuario.setEndereco(mapEndereco(enderecoRequest, cepResponse));
     }
 
     private static Boolean verificaCampoEnderecoNulo(Object campo) {
@@ -68,15 +71,15 @@ public class UsuarioAtualizaMap {
         }
     }
 
-    private static Endereco mapEndereco(EnderecoRequest endereco){
+    private static Endereco mapEndereco(EnderecoRequest endereco, CepResponse cepResponse){
         Endereco enderecoMap = new Endereco();
 
-        enderecoMap.setLogradouro(endereco.getLogradouro());
+        enderecoMap.setLogradouro(cepResponse.getLogradouro());
         enderecoMap.setNumero(endereco.getNumero());
-        enderecoMap.setBairro(endereco.getBairro());
-        enderecoMap.setCidade(endereco.getCidade());
-        enderecoMap.setEstado(endereco.getEstado());
-        enderecoMap.setPais(endereco.getPais());
+        enderecoMap.setBairro(cepResponse.getBairro());
+        enderecoMap.setCidade(cepResponse.getLocalidade());
+        enderecoMap.setEstado(cepResponse.getUf());
+        enderecoMap.setPais("BR");
         enderecoMap.setCep(endereco.getCep());
         enderecoMap.setComplemento(endereco.getComplemento());
 
@@ -132,7 +135,7 @@ public class UsuarioAtualizaMap {
         enderecoResponseMap.setEstado(endereco.getEstado());
         enderecoResponseMap.setPais(endereco.getPais());
         enderecoResponseMap.setCep(endereco.getCep());
-        enderecoResponseMap.setComplemento(enderecoResponseMap.getComplemento());
+        enderecoResponseMap.setComplemento(endereco.getComplemento());
 
         return enderecoResponseMap;
     }

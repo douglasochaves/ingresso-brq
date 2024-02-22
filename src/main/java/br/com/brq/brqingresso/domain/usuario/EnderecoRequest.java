@@ -14,37 +14,37 @@ import javax.validation.constraints.Size;
 @Setter
 public class EnderecoRequest {
 
-    @Size(max = 100)
-    @NotBlank
-    @NotNull
-    private String logradouro;
+//    @Size(max = 100)
+//    @NotBlank
+//    @NotNull
+//    private String logradouro;
 
     @Size(max = 10)
     @NotBlank
     @NotNull
     private String numero;
 
-    @Size(max = 20)
-    @NotBlank
-    @NotNull
-    private String bairro;
-
-    @Size(max = 50)
-    @NotBlank
-    @NotNull
-    private String cidade;
-
-    @Size(min = 2, max = 2)
-    @NotBlank
-    @NotNull
-    @EstadoBrasil
-    private String estado;
-
-    @Size(min = 2, max = 2)
-    @NotBlank
-    @NotNull
-    @Pais
-    private String pais;
+//    @Size(max = 20)
+//    @NotBlank
+//    @NotNull
+//    private String bairro;
+//
+//    @Size(max = 50)
+//    @NotBlank
+//    @NotNull
+//    private String cidade;
+//
+//    @Size(min = 2, max = 2)
+//    @NotBlank
+//    @NotNull
+//    @EstadoBrasil
+//    private String estado;
+//
+//    @Size(min = 2, max = 2)
+//    @NotBlank
+//    @NotNull
+//    @Pais
+//    private String pais;
 
     @Size(min = 8, max = 8)
     @NotBlank

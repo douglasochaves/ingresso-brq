@@ -10,12 +10,14 @@ import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
 import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaRequest;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
 import br.com.brq.brqingresso.service.cep.CepClient;
+import br.com.brq.brqingresso.service.cep.CepService;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
@@ -34,10 +36,11 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
 
     @Autowired
-    CepClient cepClient;
+    CepService cepService;
 
     public UsuarioResponse processUsuario(UsuarioRequest usuarioRequest) {
-            Usuario usuario = UsuarioMap.mapUsuario(usuarioRequest);
+            CepResponse cepResponse = cepService.processCep(usuarioRequest.getEndereco().getCep());
+            Usuario usuario = UsuarioMap.mapUsuario(usuarioRequest, cepResponse);
             Validations.verificaDataNascimento(usuario.getDataNascimento());
             verificaDuplicidade(usuario);
             usuarioRepository.save(usuario);
@@ -55,10 +58,11 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
-    public UsuarioAtualizaResponse atualizaUsuario(UsuarioRequest usuarioRequest, String id) {
+    public UsuarioAtualizaResponse atualizaUsuario(UsuarioAtualizaRequest usuarioRequest, String id) {
         Validations.verificaDataNascimento(usuarioRequest.getDataNascimento());
         Usuario usuario = verificaUsuario(id);
-        Usuario usuarioData = UsuarioAtualizaMap.mapUsuarioAtualiza(usuarioRequest, usuario);
+        CepResponse cepResponse = cepService.processCep(usuarioRequest.getEndereco().getCep());
+        Usuario usuarioData = UsuarioAtualizaMap.mapUsuarioAtualiza(usuarioRequest, usuario, cepResponse);
         usuarioRepository.save(usuarioData);
         UsuarioAtualizaResponse usuarioResponseAtualiza = UsuarioAtualizaMap.mapUsuarioAtualizaResponse(usuario);
         return usuarioResponseAtualiza;

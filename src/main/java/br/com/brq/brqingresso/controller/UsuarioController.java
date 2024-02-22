@@ -7,6 +7,7 @@ import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
 import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
+import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaRequest;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.domain.usuariolista.UsuarioListaResponse;
 import br.com.brq.brqingresso.service.usuario.UsuarioService;
@@ -52,7 +53,7 @@ public class UsuarioController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<UsuarioAtualizaResponse> atualizarUsuario (@Valid @RequestBody UsuarioRequest usuarioRequest, @PathVariable String id) {
+    public ResponseEntity<UsuarioAtualizaResponse> atualizarUsuario (@Valid @RequestBody UsuarioAtualizaRequest usuarioRequest, @PathVariable String id) {
         UsuarioAtualizaResponse usuarioResponseAtualiza = usuarioService.atualizaUsuario(usuarioRequest, id);
         return ResponseEntity.ok().body(usuarioResponseAtualiza);
     }

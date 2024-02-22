@@ -1,6 +1,7 @@
 package br.com.brq.brqingresso.mappers.usuario;
 
 import br.com.brq.brqingresso.common.utils.Helpers;
+import br.com.brq.brqingresso.domain.cep.CepResponse;
 import br.com.brq.brqingresso.domain.usuario.EnderecoRequest;
 import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 public class UsuarioMap {
 
-    public static Usuario mapUsuario(UsuarioRequest usuario){
+    public static Usuario mapUsuario(UsuarioRequest usuario, CepResponse cepResponse){
         Usuario usuarioMap = new Usuario();
         EnderecoRequest endereco = usuario.getEndereco();
 
@@ -27,7 +28,7 @@ public class UsuarioMap {
         usuarioMap.setCelular(usuario.getCelular());
         usuarioMap.setGenero(generoUsuario(usuario.getGenero()));
         usuarioMap.setDataCadastro(LocalDateTime.now());
-        usuarioMap.setEndereco(mapEndereco(endereco));
+        usuarioMap.setEndereco(mapEndereco(endereco, cepResponse));
 
         return usuarioMap;
     }
@@ -47,16 +48,16 @@ public class UsuarioMap {
         }
     }
 
-    private static Endereco mapEndereco(EnderecoRequest endereco){
+    private static Endereco mapEndereco(EnderecoRequest endereco, CepResponse cepResponse){
         Endereco enderecoMap = new Endereco();
 
-        enderecoMap.setLogradouro(endereco.getLogradouro());
+        enderecoMap.setLogradouro(cepResponse.getLogradouro());
         enderecoMap.setNumero(endereco.getNumero());
-        enderecoMap.setBairro(endereco.getBairro());
-        enderecoMap.setCidade(endereco.getCidade());
-        enderecoMap.setEstado(endereco.getEstado());
-        enderecoMap.setPais(endereco.getPais());
-        enderecoMap.setCep(endereco.getCep());
+        enderecoMap.setBairro(cepResponse.getBairro());
+        enderecoMap.setCidade(cepResponse.getLocalidade());
+        enderecoMap.setEstado(cepResponse.getUf());
+        enderecoMap.setPais("BR");
+        enderecoMap.setCep(cepResponse.getCep());
         enderecoMap.setComplemento(endereco.getComplemento());
 
         return enderecoMap;
