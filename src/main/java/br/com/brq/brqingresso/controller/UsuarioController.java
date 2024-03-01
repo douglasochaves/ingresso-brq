@@ -31,7 +31,7 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioResponse> cadastrarUsuario (@Valid @RequestBody UsuarioRequest usuarioRequest) {
-        UsuarioResponse usuarioResponse = usuarioService.processUsuario(usuarioRequest);
+        UsuarioResponse usuarioResponse = usuarioService.cadastraUsuario(usuarioRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
     }
 

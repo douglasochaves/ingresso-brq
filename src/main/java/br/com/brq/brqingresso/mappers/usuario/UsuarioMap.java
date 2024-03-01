@@ -82,6 +82,7 @@ public class UsuarioMap {
     }
 
     private static String generoUsuarioResponse(Integer genero) {
+        if(genero == null) return null;
         switch (genero) {
             case 1:
                 return "M";
@@ -97,6 +98,7 @@ public class UsuarioMap {
     }
 
     private static EnderecoResponse mapEnderecoResponse(Endereco endereco){
+        if(endereco == null) return null;
         EnderecoResponse enderecoResponseMap = new EnderecoResponse();
 
         enderecoResponseMap.setLogradouro(endereco.getLogradouro());

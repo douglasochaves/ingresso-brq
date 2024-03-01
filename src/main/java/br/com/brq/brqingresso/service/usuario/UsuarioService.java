@@ -38,7 +38,7 @@ public class UsuarioService {
     @Autowired
     CepService cepService;
 
-    public UsuarioResponse processUsuario(UsuarioRequest usuarioRequest) {
+    public UsuarioResponse cadastraUsuario(UsuarioRequest usuarioRequest) {
             CepResponse cepResponse = cepService.processCep(usuarioRequest.getEndereco().getCep());
             Usuario usuario = UsuarioMap.mapUsuario(usuarioRequest, cepResponse);
             Validations.verificaDataNascimento(usuario.getDataNascimento());
