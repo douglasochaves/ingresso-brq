@@ -3,10 +3,10 @@ package br.com.brq.brqingresso.service.usuario.handler;
 import br.com.brq.brqingresso.common.utils.Helpers;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.BadRequestException;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.DataNascimentoInvalidaException;
-import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoException;
-import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
+import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoInvalidoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.ErrorsException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
+import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.UsuarioInexistenteException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -62,9 +62,9 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
         CorpoMensagemBadRequestResponse corpoMensagemBadRequestResponse = getCorpoMensagemBadRequestResponse(e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemBadRequestResponse);
     }
-    @ExceptionHandler(FormatoCodigoException.class)
+    @ExceptionHandler(FormatoCodigoInvalidoException.class)
     public static ResponseEntity<CorpoMensagemBadRequestResponse> handleFormatoCodigo (
-            FormatoCodigoException e) {
+            FormatoCodigoInvalidoException e) {
         CorpoMensagemBadRequestResponse corpoMensagemBadRequestResponse = getCorpoMensagemBadRequestResponse(e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemBadRequestResponse);
     }

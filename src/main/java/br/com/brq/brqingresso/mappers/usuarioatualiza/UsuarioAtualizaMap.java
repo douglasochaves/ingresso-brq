@@ -90,11 +90,6 @@ public class UsuarioAtualizaMap {
         UsuarioAtualizaResponse usuarioResponseMap = new UsuarioAtualizaResponse();
         Endereco endereco = usuario.getEndereco();
 
-        ZonedDateTime dataCadastro = ZonedDateTime.of(usuario.getDataCadastro(), ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
-
-        String dataCadastroString = dataCadastro.format(formatter);
-
         usuarioResponseMap.setId(usuario.getId());
         usuarioResponseMap.setCpf(usuario.getCpf());
         usuarioResponseMap.setEmail(usuario.getEmail());
@@ -103,7 +98,7 @@ public class UsuarioAtualizaMap {
         usuarioResponseMap.setDataNascimento(usuario.getDataNascimento());
         usuarioResponseMap.setCelular(usuario.getCelular());
         usuarioResponseMap.setGenero(generoUsuarioResponse(usuario.getGenero()));
-        usuarioResponseMap.setDataCadastro(dataCadastroString);
+        usuarioResponseMap.setDataCadastro(Helpers.dataHoraFormatada(usuario.getDataCadastro()));
         usuarioResponseMap.setDataAtualizacao(Helpers.dataHoraAtualFormatada());
         usuarioResponseMap.setEndereco(mapEnderecoResponse(endereco));
 

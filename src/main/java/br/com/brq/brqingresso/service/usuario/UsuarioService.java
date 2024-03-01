@@ -7,7 +7,6 @@ import br.com.brq.brqingresso.domain.cep.CepResponse;
 import br.com.brq.brqingresso.domain.trocasenha.AlteraSenhaRequest;
 import br.com.brq.brqingresso.domain.trocasenha.GeraHashTrocaSenhaResponse;
 import br.com.brq.brqingresso.domain.trocasenha.NovaSenhaRequest;
-import br.com.brq.brqingresso.domain.usuario.EnderecoResponse;
 import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
 import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaRequest;
@@ -16,16 +15,14 @@ import br.com.brq.brqingresso.entities.Usuario;
 import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.mappers.usuarioatualiza.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
-import br.com.brq.brqingresso.service.cep.CepClient;
 import br.com.brq.brqingresso.service.cep.CepService;
-import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoException;
+import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoInvalidoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.UsuarioInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -132,7 +129,7 @@ public class UsuarioService {
         try{
             UUID.fromString(codigo);
         } catch (IllegalArgumentException e) {
-            throw new FormatoCodigoException(
+            throw new FormatoCodigoInvalidoException(
                 "Formato do código de segurança inválido.",
                 CamposConstants.CODIGO_SEGURANCA,
                 "O código fornecido não é um UUID."
