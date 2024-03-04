@@ -4,10 +4,7 @@ import br.com.brq.brqingresso.common.utils.Helpers;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.BadRequestException;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.DataNascimentoInvalidaException;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoInvalidoException;
-import br.com.brq.brqingresso.service.usuario.exception.errors.ErrorsException;
-import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
-import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
-import br.com.brq.brqingresso.service.usuario.exception.errors.UsuarioInexistenteException;
+import br.com.brq.brqingresso.service.usuario.exception.errors.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +37,13 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InformacaoIncompativelException.class)
     public static ResponseEntity<CorpoMensagemErroResponse> handleInformacaoIncompativel (
             InformacaoIncompativelException e) {
+        CorpoMensagemErroResponse corpoMensagemErroResponse = getCorpoMensagemErroResponse(e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);
+    }
+
+    @ExceptionHandler(TempoExcedidoException.class)
+    public static ResponseEntity<CorpoMensagemErroResponse> handleTempoExcedido (
+            TempoExcedidoException e) {
         CorpoMensagemErroResponse corpoMensagemErroResponse = getCorpoMensagemErroResponse(e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemErroResponse);
     }

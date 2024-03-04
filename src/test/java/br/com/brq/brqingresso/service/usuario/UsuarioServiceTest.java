@@ -10,17 +10,16 @@ import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaRequest;
 import br.com.brq.brqingresso.domain.usuarioatualiza.UsuarioAtualizaResponse;
 import br.com.brq.brqingresso.entities.Usuario;
-import br.com.brq.brqingresso.mappers.usuario.UsuarioMap;
 import br.com.brq.brqingresso.mocks.CepResponseMock;
 import br.com.brq.brqingresso.mocks.UsuarioAtualizaRequestMock;
 import br.com.brq.brqingresso.mocks.UsuarioMock;
 import br.com.brq.brqingresso.mocks.UsuarioRequestMock;
 import br.com.brq.brqingresso.repositories.UsuarioRepository;
-import br.com.brq.brqingresso.service.cep.CepClient;
 import br.com.brq.brqingresso.service.cep.CepService;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoInvalidoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
+import br.com.brq.brqingresso.service.usuario.exception.errors.TempoExcedidoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.UsuarioInexistenteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -173,6 +172,35 @@ class UsuarioServiceTest {
     }
 
     @Test
+    void testNovaSenhaTempoExcedido(){
+        LocalDateTime dataHoraCodigoSeguranca = LocalDateTime.now().minusMinutes(6);
+        String dataHoraCodigoSegurancaString = Helpers.dataHoraFormatada(dataHoraCodigoSeguranca);
+        String id = "123";
+        NovaSenhaRequest novaSenhaRequest = new NovaSenhaRequest();
+        novaSenhaRequest.setCodigoSeguranca("2d08dca7-620d-4233-a496-28c6f637f8a8");
+        novaSenhaRequest.setNovaSenha("novasenhateste");
+        usuario.setDataHoraCodigoSeguranca(dataHoraCodigoSegurancaString);
+        when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuario));
+
+        assertThrows(TempoExcedidoException.class, () ->
+                usuarioService.novaSenha(novaSenhaRequest, id)
+        );
+    }
+
+    @Test
+    void testNovaSenhaSenhasIguais(){
+        String id = "123";
+        NovaSenhaRequest novaSenhaRequest = new NovaSenhaRequest();
+        novaSenhaRequest.setCodigoSeguranca("2d08dca7-620d-4233-a496-28c6f637f8a8");
+        novaSenhaRequest.setNovaSenha("teste");
+        when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuario));
+
+        assertThrows(InformacaoIncompativelException.class, () ->
+                usuarioService.novaSenha(novaSenhaRequest, id)
+        );
+    }
+
+    @Test
     void testAlteraSenhaSuccess(){
         String id = "123";
         AlteraSenhaRequest alteraSenhaRequest = new AlteraSenhaRequest();
@@ -181,5 +209,18 @@ class UsuarioServiceTest {
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuario));
         usuarioService.alteraSenha(alteraSenhaRequest, id);
         verify(usuarioRepository).findById(id);
+    }
+
+    @Test
+    void testAlteraSenhaSenhasNaoCorrespondem(){
+        String id = "123";
+        AlteraSenhaRequest alteraSenhaRequest = new AlteraSenhaRequest();
+        alteraSenhaRequest.setSenhaAtual("errada");
+        alteraSenhaRequest.setNovaSenha("novasenhateste");
+        when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuario));
+
+        assertThrows(InformacaoIncompativelException.class, () ->
+                usuarioService.alteraSenha(alteraSenhaRequest, id)
+        );
     }
 }

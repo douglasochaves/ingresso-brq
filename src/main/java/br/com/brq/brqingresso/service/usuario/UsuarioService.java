@@ -19,6 +19,7 @@ import br.com.brq.brqingresso.service.cep.CepService;
 import br.com.brq.brqingresso.service.usuario.exception.badrequest.FormatoCodigoInvalidoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoDuplicadaException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.InformacaoIncompativelException;
+import br.com.brq.brqingresso.service.usuario.exception.errors.TempoExcedidoException;
 import br.com.brq.brqingresso.service.usuario.exception.errors.UsuarioInexistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -152,7 +153,7 @@ public class UsuarioService {
 
         long diferencaEmMin = java.time.Duration.between(dataHora, dataHoraAtual).toMinutes();
         if(diferencaEmMin > 5){
-            throw new InformacaoIncompativelException(
+            throw new TempoExcedidoException(
                     "Tempo máximo de 5 minutos do código de segurança excedido."
             );
         }
