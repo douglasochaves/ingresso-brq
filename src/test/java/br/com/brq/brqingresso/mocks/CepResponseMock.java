@@ -1,6 +1,6 @@
 package br.com.brq.brqingresso.mocks;
 
-import br.com.brq.brqingresso.domain.cep.CepResponse;
+import br.com.brq.brqingresso.v1.domain.cep.CepResponse;
 
 public class CepResponseMock {
 

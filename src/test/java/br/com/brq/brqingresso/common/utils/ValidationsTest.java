@@ -1,6 +1,7 @@
 package br.com.brq.brqingresso.common.utils;
 
-import br.com.brq.brqingresso.service.usuario.exception.badrequest.DataNascimentoInvalidaException;
+import br.com.brq.brqingresso.v1.common.utils.Validations;
+import br.com.brq.brqingresso.v1.service.usuario.exception.badrequest.DataNascimentoInvalidaException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;

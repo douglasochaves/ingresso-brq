@@ -1,8 +1,9 @@
 package br.com.brq.brqingresso.service.usuariolista;
 
-import br.com.brq.brqingresso.domain.usuariolista.UsuarioListaResponse;
-import br.com.brq.brqingresso.entities.Usuario;
-import br.com.brq.brqingresso.repositories.UsuarioRepository;
+import br.com.brq.brqingresso.v1.domain.usuariolista.UsuarioListaResponse;
+import br.com.brq.brqingresso.v1.entities.Usuario;
+import br.com.brq.brqingresso.v1.repositories.UsuarioRepository;
+import br.com.brq.brqingresso.v1.service.usuariolista.UsuarioListaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

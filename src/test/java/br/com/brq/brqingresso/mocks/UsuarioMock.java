@@ -1,8 +1,8 @@
 package br.com.brq.brqingresso.mocks;
 
-import br.com.brq.brqingresso.common.utils.Helpers;
-import br.com.brq.brqingresso.entities.Endereco;
-import br.com.brq.brqingresso.entities.Usuario;
+import br.com.brq.brqingresso.v1.common.utils.Helpers;
+import br.com.brq.brqingresso.v1.entities.Endereco;
+import br.com.brq.brqingresso.v1.entities.Usuario;
 
 import java.time.LocalDateTime;
 

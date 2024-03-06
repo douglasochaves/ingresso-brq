@@ -1,0 +1,178 @@
+package br.com.brq.brqingresso.v1.service.usuario;
+
+import br.com.brq.brqingresso.v1.common.constants.CamposConstants;
+import br.com.brq.brqingresso.v1.common.utils.Helpers;
+import br.com.brq.brqingresso.v1.common.utils.Validations;
+import br.com.brq.brqingresso.v1.domain.cep.CepResponse;
+import br.com.brq.brqingresso.v1.domain.trocasenha.AlteraSenhaRequest;
+import br.com.brq.brqingresso.v1.domain.trocasenha.GeraHashTrocaSenhaResponse;
+import br.com.brq.brqingresso.v1.domain.trocasenha.NovaSenhaRequest;
+import br.com.brq.brqingresso.v1.domain.usuario.UsuarioRequest;
+import br.com.brq.brqingresso.v1.domain.usuario.UsuarioResponse;
+import br.com.brq.brqingresso.v1.domain.usuarioatualiza.UsuarioAtualizaRequest;
+import br.com.brq.brqingresso.v1.domain.usuarioatualiza.UsuarioAtualizaResponse;
+import br.com.brq.brqingresso.v1.entities.Usuario;
+import br.com.brq.brqingresso.v1.mappers.usuario.UsuarioMap;
+import br.com.brq.brqingresso.v1.mappers.usuarioatualiza.UsuarioAtualizaMap;
+import br.com.brq.brqingresso.v1.repositories.UsuarioRepository;
+import br.com.brq.brqingresso.v1.service.cep.CepService;
+import br.com.brq.brqingresso.v1.service.usuario.exception.badrequest.FormatoCodigoInvalidoException;
+import br.com.brq.brqingresso.v1.service.usuario.exception.errors.InformacaoDuplicadaException;
+import br.com.brq.brqingresso.v1.service.usuario.exception.errors.InformacaoIncompativelException;
+import br.com.brq.brqingresso.v1.service.usuario.exception.errors.TempoExcedidoException;
+import br.com.brq.brqingresso.v1.service.usuario.exception.errors.UsuarioInexistenteException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Service
+public class UsuarioService {
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    CepService cepService;
+
+    public UsuarioResponse cadastraUsuario(UsuarioRequest usuarioRequest) {
+            CepResponse cepResponse = cepService.processCep(usuarioRequest.getEndereco().getCep());
+            Usuario usuario = UsuarioMap.mapUsuario(usuarioRequest, cepResponse);
+            Validations.verificaDataNascimento(usuario.getDataNascimento());
+            verificaDuplicidade(usuario);
+            usuarioRepository.save(usuario);
+            UsuarioResponse usuarioResponse = UsuarioMap.mapUsuarioResponse(usuario);
+            return usuarioResponse;
+    }
+
+    public UsuarioResponse detalhaUsuario(String id) {
+        Usuario usuario = verificaUsuario(id);
+        return UsuarioMap.mapUsuarioResponse(usuario);
+    }
+
+    public void excluiUsuario(String id) {
+        Usuario usuario = verificaUsuario(id);
+        usuarioRepository.delete(usuario);
+    }
+
+    public UsuarioAtualizaResponse atualizaUsuario(UsuarioAtualizaRequest usuarioRequest, String id) {
+        Validations.verificaDataNascimento(usuarioRequest.getDataNascimento());
+        Usuario usuario = verificaUsuario(id);
+        CepResponse cepResponse = cepService.processCep(usuarioRequest.getEndereco().getCep());
+        Usuario usuarioData = UsuarioAtualizaMap.mapUsuarioAtualiza(usuarioRequest, usuario, cepResponse);
+        usuarioRepository.save(usuarioData);
+        UsuarioAtualizaResponse usuarioResponseAtualiza = UsuarioAtualizaMap.mapUsuarioAtualizaResponse(usuario);
+        return usuarioResponseAtualiza;
+    }
+
+    public GeraHashTrocaSenhaResponse geraHashTrocaSenha(String id) {
+        Usuario usuario = verificaUsuario(id);
+        GeraHashTrocaSenhaResponse hashTrocaSenhaResponse = new GeraHashTrocaSenhaResponse();
+        String hash = UUID.randomUUID().toString();
+        hashTrocaSenhaResponse.setCodigoSeguranca(hash);
+        usuario.setCodigoSeguranca(hash);
+        usuario.setDataHoraCodigoSeguranca(Helpers.dataHoraAtualFormatada());
+        usuarioRepository.save(usuario);
+        return hashTrocaSenhaResponse;
+    }
+
+    public void novaSenha(NovaSenhaRequest novaSenhaRequest, String id) {
+        Usuario usuario = verificaUsuario(id);
+        verificaUsuarioNovaSenha(novaSenhaRequest, usuario);
+    }
+
+    public void alteraSenha(AlteraSenhaRequest alteraSenhaRequest, String id) {
+        Usuario usuario = verificaUsuario(id);
+        verificaSenhaAtual(usuario, alteraSenhaRequest.getSenhaAtual());
+        usuario.setSenha(alteraSenhaRequest.getNovaSenha());
+        usuarioRepository.save(usuario);
+    }
+
+    private void verificaDuplicidade(Usuario usuario) {
+        verificaCpfUnico(usuario.getCpf());
+        verificaEmailUnico(usuario.getEmail());
+    }
+
+
+    private void verificaCpfUnico(String cpf) throws InformacaoDuplicadaException {
+        if(usuarioRepository.existsByCpf(cpf)) {
+            throw new InformacaoDuplicadaException(
+                    "O usuário não pode ser cadastrado, pois o CPF já se encontra na base de dados."
+            );
+        }
+    }
+
+    private void verificaEmailUnico(String email) throws InformacaoDuplicadaException {
+        if(usuarioRepository.existsByEmail(email)) {
+            throw new InformacaoDuplicadaException(
+                    "O usuário não pode ser cadastrado, pois o E-mail já se encontra na base de dados."
+            );
+        }
+    }
+
+    private Usuario verificaUsuario(String id) {
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if(usuario == null) throw new UsuarioInexistenteException(
+                "O usuario com o id " + id + " não foi encontrado na base de dados!"
+        );
+        return usuario;
+    }
+
+    private void verificaUsuarioNovaSenha(NovaSenhaRequest novaSenhaRequest, Usuario usuario) {
+        verificaFormatoCodigoSeguranca(novaSenhaRequest.getCodigoSeguranca());
+        verificaCodigoSegurancaUsuario(usuario, novaSenhaRequest.getCodigoSeguranca());
+        verificaNovaSenha(usuario, novaSenhaRequest.getNovaSenha());
+        verificaTempoExcedido(usuario.getDataHoraCodigoSeguranca());
+    }
+
+    private void verificaFormatoCodigoSeguranca(String codigo) {
+        try{
+            UUID.fromString(codigo);
+        } catch (IllegalArgumentException e) {
+            throw new FormatoCodigoInvalidoException(
+                "Formato do código de segurança inválido.",
+                CamposConstants.CODIGO_SEGURANCA,
+                "O código fornecido não é um UUID."
+            );
+        }
+    }
+
+    private void verificaCodigoSegurancaUsuario(Usuario usuario, String codigoSeguranca) {
+        if(!codigoSeguranca.equals(usuario.getCodigoSeguranca())){
+            throw new InformacaoIncompativelException(
+                    "O código de segurança informado não corresponde com o deste usuário."
+            );
+        }
+    }
+
+    private void verificaTempoExcedido(String dataHoraCodigoSeguranca) {
+        LocalDateTime dataHora = Helpers.convertStringToDateTime(dataHoraCodigoSeguranca);
+        String dataHoraAtualString = Helpers.dataHoraAtualFormatada();
+        LocalDateTime dataHoraAtual = Helpers.convertStringToDateTime(dataHoraAtualString);
+
+        long diferencaEmMin = java.time.Duration.between(dataHora, dataHoraAtual).toMinutes();
+        if(diferencaEmMin > 5){
+            throw new TempoExcedidoException(
+                    "Tempo máximo de 5 minutos do código de segurança excedido."
+            );
+        }
+    }
+
+    private void verificaNovaSenha(Usuario usuario, String novaSenha) {
+        if(novaSenha.equals(usuario.getSenha())){
+            throw new InformacaoIncompativelException(
+                    "A nova senha não pode ser igual a senha atual."
+            );
+        }
+    }
+
+
+    private void verificaSenhaAtual(Usuario usuario, String senhaAtual) {
+        if(!senhaAtual.equals(usuario.getSenha())){
+            throw new InformacaoIncompativelException(
+                    "A senha informada não corresponde com a atual."
+            );
+        }
+    }
+}

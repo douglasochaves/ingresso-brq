@@ -1,8 +1,7 @@
 package br.com.brq.brqingresso.mocks;
 
-import br.com.brq.brqingresso.domain.usuario.EnderecoRequest;
-import br.com.brq.brqingresso.domain.usuario.UsuarioRequest;
-import br.com.brq.brqingresso.domain.usuario.UsuarioResponse;
+import br.com.brq.brqingresso.v1.domain.usuario.EnderecoRequest;
+import br.com.brq.brqingresso.v1.domain.usuario.UsuarioRequest;
 
 public class UsuarioRequestMock {
 
