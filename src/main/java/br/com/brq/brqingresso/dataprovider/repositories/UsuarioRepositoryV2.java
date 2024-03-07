@@ -1,4 +1,4 @@
-package br.com.brq.brqingresso.dataprovider.respositories;
+package br.com.brq.brqingresso.dataprovider.repositories;
 
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

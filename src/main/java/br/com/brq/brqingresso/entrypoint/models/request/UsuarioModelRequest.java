@@ -67,5 +67,5 @@ public class UsuarioModelRequest {
     private String genero;
 
     @Valid
-    private EnderecoDomain endereco;
+    private EnderecoModelRequest endereco;
 }

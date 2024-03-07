@@ -1,5 +1,8 @@
 package br.com.brq.brqingresso.entrypoint.mappers;
 
+import br.com.brq.brqingresso.dataprovider.entities.EnderecoEntity;
+import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
+import br.com.brq.brqingresso.entrypoint.models.request.EnderecoModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
@@ -15,7 +18,7 @@ public class UsuarioDomainMap {
 
     public UsuarioDomain mapToDomain(UsuarioModelRequest usuario){
         UsuarioDomain usuarioMap = new UsuarioDomain();
-        EnderecoDomain endereco = usuario.getEndereco();
+        EnderecoModelRequest endereco = usuario.getEndereco();
 
         usuarioMap.setId(UUID.randomUUID().toString());
         usuarioMap.setCpf(usuario.getCpf());
@@ -47,11 +50,34 @@ public class UsuarioDomainMap {
         }
     }
 
-    private static EnderecoDomain mapEndereco(EnderecoDomain endereco){
+    private static EnderecoDomain mapEndereco(EnderecoModelRequest endereco){
         EnderecoDomain enderecoMap = new EnderecoDomain();
 
         enderecoMap.setNumero(endereco.getNumero());
+        enderecoMap.setCep(endereco.getCep());
         enderecoMap.setPais("BR");
+        enderecoMap.setComplemento(endereco.getComplemento());
+
+        return enderecoMap;
+    }
+
+    public UsuarioDomain mapToDomainComCep(UsuarioDomain usuarioDomain, UsuarioEntity usuario){
+
+        usuarioDomain.setEndereco(mapEnderecoComCep(usuario.getEndereco()));
+
+        return usuarioDomain;
+    }
+
+    private static EnderecoDomain mapEnderecoComCep(EnderecoEntity endereco){
+        EnderecoDomain enderecoMap = new EnderecoDomain();
+
+        enderecoMap.setLogradouro(endereco.getLogradouro());
+        enderecoMap.setNumero(endereco.getNumero());
+        enderecoMap.setBairro(endereco.getBairro());
+        enderecoMap.setCidade(endereco.getCidade());
+        enderecoMap.setEstado(endereco.getEstado());
+        enderecoMap.setPais("BR");
+        enderecoMap.setCep(endereco.getCep());
         enderecoMap.setComplemento(endereco.getComplemento());
 
         return enderecoMap;
@@ -95,8 +121,13 @@ public class UsuarioDomainMap {
         if(endereco == null) return null;
         EnderecoDomain enderecoResponseMap = new EnderecoDomain();
 
+        enderecoResponseMap.setLogradouro(endereco.getLogradouro());
         enderecoResponseMap.setNumero(endereco.getNumero());
+        enderecoResponseMap.setBairro(endereco.getBairro());
+        enderecoResponseMap.setCidade(endereco.getCidade());
+        enderecoResponseMap.setEstado(endereco.getEstado());
         enderecoResponseMap.setPais(endereco.getPais());
+        enderecoResponseMap.setCep(endereco.getCep());
         enderecoResponseMap.setComplemento(endereco.getComplemento());
 
         return enderecoResponseMap;

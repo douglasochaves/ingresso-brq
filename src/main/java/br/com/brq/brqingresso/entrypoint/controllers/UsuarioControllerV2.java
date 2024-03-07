@@ -24,12 +24,11 @@ public class UsuarioControllerV2 {
 
     private final UsuarioDomainMap usuarioDomainMap;
 
-
     @PostMapping
     public ResponseEntity<UsuarioModelResponse> cadastrarUsuarioV2 (@Valid @RequestBody UsuarioModelRequest usuarioModelRequest) {
         UsuarioDomain usuarioDomain = usuarioDomainMap.mapToDomain(usuarioModelRequest);
-        usuarioUseCase.cadastraUsuario(usuarioDomain);
-        UsuarioModelResponse usuarioModelResponse = usuarioDomainMap.mapUsuarioResponse(usuarioDomain);
+        UsuarioDomain usuarioCadastrado = usuarioUseCase.cadastraUsuario(usuarioDomain);
+        UsuarioModelResponse usuarioModelResponse = usuarioDomainMap.mapUsuarioResponse(usuarioCadastrado);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioModelResponse);
     }
 
