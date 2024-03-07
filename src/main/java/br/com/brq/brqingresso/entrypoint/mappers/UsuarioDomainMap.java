@@ -5,10 +5,12 @@ import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 import br.com.brq.brqingresso.v1.common.utils.Helpers;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Component
 public class UsuarioDomainMap {
 
     public UsuarioDomain mapToDomain(UsuarioModelRequest usuario){

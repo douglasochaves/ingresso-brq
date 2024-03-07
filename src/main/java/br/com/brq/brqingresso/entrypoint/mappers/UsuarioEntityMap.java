@@ -4,10 +4,12 @@ import br.com.brq.brqingresso.dataprovider.entities.EnderecoEntity;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Component
 public class UsuarioEntityMap {
 
     public UsuarioEntity mapToEntity(UsuarioDomain usuario){
