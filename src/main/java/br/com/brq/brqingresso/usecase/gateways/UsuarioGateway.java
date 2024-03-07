@@ -1,8 +1,8 @@
 package br.com.brq.brqingresso.usecase.gateways;
 
-import br.com.brq.brqingresso.usecase.domains.UsuarioV2;
+import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 
 public interface UsuarioGateway {
 
-    UsuarioV2 usuarioGateway(UsuarioV2 usuarioV2);
+    UsuarioDomain save(UsuarioDomain usuarioV2);
 }

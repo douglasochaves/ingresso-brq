@@ -2,18 +2,18 @@ package br.com.brq.brqingresso.entrypoint.mappers;
 
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
-import br.com.brq.brqingresso.usecase.domains.EnderecoV2;
-import br.com.brq.brqingresso.usecase.domains.UsuarioV2;
+import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
+import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 import br.com.brq.brqingresso.v1.common.utils.Helpers;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class UsuarioV2Map {
+public class UsuarioDomainMap {
 
-    public static UsuarioV2 mapUsuario(UsuarioModelRequest usuario){
-        UsuarioV2 usuarioMap = new UsuarioV2();
-        EnderecoV2 endereco = usuario.getEndereco();
+    public UsuarioDomain mapToDomain(UsuarioModelRequest usuario){
+        UsuarioDomain usuarioMap = new UsuarioDomain();
+        EnderecoDomain endereco = usuario.getEndereco();
 
         usuarioMap.setId(UUID.randomUUID().toString());
         usuarioMap.setCpf(usuario.getCpf());
@@ -45,8 +45,8 @@ public class UsuarioV2Map {
         }
     }
 
-    private static EnderecoV2 mapEndereco(EnderecoV2 endereco){
-        EnderecoV2 enderecoMap = new EnderecoV2();
+    private static EnderecoDomain mapEndereco(EnderecoDomain endereco){
+        EnderecoDomain enderecoMap = new EnderecoDomain();
 
         enderecoMap.setNumero(endereco.getNumero());
         enderecoMap.setPais("BR");
@@ -55,9 +55,9 @@ public class UsuarioV2Map {
         return enderecoMap;
     }
 
-    public static UsuarioModelResponse mapUsuarioResponse(UsuarioV2 usuario){
+    public UsuarioModelResponse mapUsuarioResponse(UsuarioDomain usuario){
         UsuarioModelResponse usuarioResponseMap = new UsuarioModelResponse();
-        EnderecoV2 endereco = usuario.getEndereco();
+        EnderecoDomain endereco = usuario.getEndereco();
 
         usuarioResponseMap.setId(usuario.getId());
         usuarioResponseMap.setCpf(usuario.getCpf());
@@ -89,9 +89,9 @@ public class UsuarioV2Map {
         }
     }
 
-    private static EnderecoV2 mapEnderecoResponse(EnderecoV2 endereco){
+    private static EnderecoDomain mapEnderecoResponse(EnderecoDomain endereco){
         if(endereco == null) return null;
-        EnderecoV2 enderecoResponseMap = new EnderecoV2();
+        EnderecoDomain enderecoResponseMap = new EnderecoDomain();
 
         enderecoResponseMap.setNumero(endereco.getNumero());
         enderecoResponseMap.setPais(endereco.getPais());

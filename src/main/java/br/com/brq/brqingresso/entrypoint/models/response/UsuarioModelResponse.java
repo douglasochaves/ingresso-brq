@@ -1,6 +1,6 @@
 package br.com.brq.brqingresso.entrypoint.models.response;
 
-import br.com.brq.brqingresso.usecase.domains.EnderecoV2;
+import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +27,6 @@ public class UsuarioModelResponse {
     @JsonProperty("data_cadastro")
     private String dataCadastro;
 
-    private EnderecoV2 endereco;
+    private EnderecoDomain endereco;
 
 }

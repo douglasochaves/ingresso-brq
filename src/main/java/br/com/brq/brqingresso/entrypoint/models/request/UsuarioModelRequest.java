@@ -1,6 +1,6 @@
 package br.com.brq.brqingresso.entrypoint.models.request;
 
-import br.com.brq.brqingresso.usecase.domains.EnderecoV2;
+import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
 import br.com.brq.brqingresso.v1.common.validators.annotations.AnoMesDia;
 import br.com.brq.brqingresso.v1.common.validators.annotations.CelularBrasil;
 import br.com.brq.brqingresso.v1.common.validators.annotations.QuantidadeDigitos;
@@ -67,5 +67,5 @@ public class UsuarioModelRequest {
     private String genero;
 
     @Valid
-    private EnderecoV2 endereco;
+    private EnderecoDomain endereco;
 }

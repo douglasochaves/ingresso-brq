@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class UsuarioV2 {
+public class UsuarioDomain {
 
     private String id;
     private String cpf;
@@ -22,6 +22,5 @@ public class UsuarioV2 {
     private LocalDateTime dataAtualizacao;
     private String codigoSeguranca;
     private String dataHoraCodigoSeguranca;
-
-    private EnderecoV2 endereco;
+    private EnderecoDomain endereco;
 }

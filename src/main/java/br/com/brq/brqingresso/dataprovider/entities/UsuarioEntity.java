@@ -1,6 +1,5 @@
 package br.com.brq.brqingresso.dataprovider.entities;
 
-import br.com.brq.brqingresso.usecase.domains.UsuarioV2;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
