@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.entrypoint.mappers;
 
+import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.dataprovider.entities.EnderecoEntity;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
 import br.com.brq.brqingresso.entrypoint.models.request.EnderecoModelRequest;
@@ -7,7 +8,6 @@ import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
-import br.com.brq.brqingresso.v1.common.utils.Helpers;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
