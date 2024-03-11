@@ -33,4 +33,9 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
         UsuarioDomain usuario = validationsService.verificaUsuario(id);
         return usuario;
     }
+
+    public void excluiUsuario(String id) {
+        UsuarioDomain usuario = validationsService.verificaUsuario(id);
+        usuarioGateway.delete(usuario);
+    }
 }

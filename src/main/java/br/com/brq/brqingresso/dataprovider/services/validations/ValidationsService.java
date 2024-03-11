@@ -18,7 +18,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ValidationsService {
 
-    private final UsuarioRepository usuarioRepository;
     private final UsuarioGateway usuarioGateway;
 
     public void verificaCadastro(UsuarioDomain usuarioDomain) {
@@ -43,7 +42,8 @@ public class ValidationsService {
     }
 
     private void verificaCpfUnico(String cpf) throws InformacaoDuplicadaException {
-        if(usuarioRepository.existsByCpf(cpf)) {
+        Boolean cpfJaExiste = usuarioGateway.existsByCpf(cpf);
+        if(cpfJaExiste) {
             throw new InformacaoDuplicadaException(
                     "O usuário não pode ser cadastrado, pois o CPF já se encontra na base de dados."
             );
@@ -51,7 +51,8 @@ public class ValidationsService {
     }
 
     private void verificaEmailUnico(String email) throws InformacaoDuplicadaException {
-        if(usuarioRepository.existsByEmail(email)) {
+        Boolean emailJaExiste = usuarioGateway.existsByEmail(email);
+        if(emailJaExiste) {
             throw new InformacaoDuplicadaException(
                     "O usuário não pode ser cadastrado, pois o E-mail já se encontra na base de dados."
             );

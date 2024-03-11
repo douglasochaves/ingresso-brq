@@ -9,5 +9,8 @@ public interface UsuarioGateway {
 
     UsuarioDomain save(UsuarioDomain usuarioDomain);
     List<UsuarioListaDomain> findAll();
+    Boolean existsByCpf(String cpf);
+    Boolean existsByEmail(String email);
     UsuarioDomain findById(String id);
+    void delete(UsuarioDomain usuarioDomain);
 }

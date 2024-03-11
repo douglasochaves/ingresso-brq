@@ -47,4 +47,10 @@ public class UsuarioController {
         UsuarioModelResponse usuarioResponse = usuarioDomainMap.mapUsuarioResponse(usuario);
         return ResponseEntity.ok().body(usuarioResponse);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> excluirUsuario (@PathVariable String id) {
+        usuarioUseCase.excluiUsuario(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

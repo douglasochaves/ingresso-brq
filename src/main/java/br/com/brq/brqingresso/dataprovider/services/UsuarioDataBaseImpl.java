@@ -41,9 +41,25 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
     }
 
     @Override
+    public Boolean existsByCpf(String cpf) {
+        return usuarioRepository.existsByEmail(cpf);
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return usuarioRepository.existsByEmail(email);
+    }
+
+    @Override
     public UsuarioDomain findById(String id) {
         UsuarioEntity usuario = usuarioRepository.findById(id).orElse(null);
         UsuarioDomain usuarioDomain = usuarioDomainMap.mapToDomain(usuario);
         return usuarioDomain;
+    }
+
+    @Override
+    public void delete(UsuarioDomain usuarioDomain) {
+        UsuarioEntity usuarioEntity = usuarioEntityMap.mapToEntity(usuarioDomain);
+        usuarioRepository.delete(usuarioEntity);
     }
 }
