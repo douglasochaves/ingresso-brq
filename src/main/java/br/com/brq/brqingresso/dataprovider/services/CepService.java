@@ -15,6 +15,7 @@ public class CepService {
     }
 
     public CepResponse processCep(String cep) {
+        if(cep == null) return null;
         CepResponse cepResponse = cepClient.buscaCep(cep);
         return cepResponse;
     }

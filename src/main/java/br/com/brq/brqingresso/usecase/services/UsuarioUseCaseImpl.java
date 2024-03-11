@@ -1,7 +1,6 @@
 package br.com.brq.brqingresso.usecase.services;
 
 import br.com.brq.brqingresso.dataprovider.services.validations.ValidationsService;
-import br.com.brq.brqingresso.entrypoint.models.response.UsuarioListaResponse;
 import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioListaDomain;
 import br.com.brq.brqingresso.usecase.gateways.UsuarioGateway;
@@ -37,5 +36,12 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
     public void excluiUsuario(String id) {
         UsuarioDomain usuario = validationsService.verificaUsuario(id);
         usuarioGateway.delete(usuario);
+    }
+
+    @Override
+    public UsuarioDomain atualizaUsuario(UsuarioDomain usuarioAtualizado, String id) {
+        UsuarioDomain usuario = validationsService.verificaAtualizacao(usuarioAtualizado, id);
+        UsuarioDomain usuarioAtualizadoSalvo = usuarioGateway.patch(usuario, usuarioAtualizado);
+        return usuarioAtualizadoSalvo;
     }
 }

@@ -4,6 +4,7 @@ import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.dataprovider.entities.EnderecoEntity;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
 import br.com.brq.brqingresso.entrypoint.models.request.EnderecoModelRequest;
+import br.com.brq.brqingresso.entrypoint.models.request.UsuarioAtualizaModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
@@ -51,6 +52,7 @@ public class UsuarioDomainMap {
     }
 
     private static EnderecoDomain mapEndereco(EnderecoModelRequest endereco){
+        if(endereco == null) return null;
         EnderecoDomain enderecoMap = new EnderecoDomain();
 
         enderecoMap.setNumero(endereco.getNumero());
@@ -147,8 +149,25 @@ public class UsuarioDomainMap {
         usuarioMap.setDataNascimento(usuario.getDataNascimento());
         usuarioMap.setCelular(usuario.getCelular());
         usuarioMap.setGenero(usuario.getGenero());
-        usuarioMap.setDataCadastro(LocalDateTime.now());
+        usuarioMap.setDataCadastro(usuario.getDataCadastro());
         usuarioMap.setEndereco(mapEnderecoComCep(endereco));
+
+        return usuarioMap;
+    }
+
+    public UsuarioDomain mapToDomain(UsuarioAtualizaModelRequest usuario){
+        UsuarioDomain usuarioMap = new UsuarioDomain();
+        EnderecoModelRequest endereco = usuario.getEndereco();
+
+        usuarioMap.setCpf(usuario.getCpf());
+        usuarioMap.setEmail(usuario.getEmail());
+        usuarioMap.setNomeCompleto(usuario.getNomeCompleto());
+        usuarioMap.setSenha(usuario.getSenha());
+        usuarioMap.setApelido(usuario.getApelido());
+        usuarioMap.setDataNascimento(usuario.getDataNascimento());
+        usuarioMap.setCelular(usuario.getCelular());
+        usuarioMap.setGenero(generoUsuario(usuario.getGenero()));
+        usuarioMap.setEndereco(mapEndereco(endereco));
 
         return usuarioMap;
     }

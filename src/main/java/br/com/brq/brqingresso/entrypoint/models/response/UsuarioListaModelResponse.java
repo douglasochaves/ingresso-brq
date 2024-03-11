@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UsuarioListaResponse {
+public class UsuarioListaModelResponse {
 
     private String id;
     private String cpf;

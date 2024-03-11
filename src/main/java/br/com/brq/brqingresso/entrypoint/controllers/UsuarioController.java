@@ -1,9 +1,12 @@
 package br.com.brq.brqingresso.entrypoint.controllers;
 
+import br.com.brq.brqingresso.entrypoint.mappers.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioDomainMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioListaMap;
+import br.com.brq.brqingresso.entrypoint.models.request.UsuarioAtualizaModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
-import br.com.brq.brqingresso.entrypoint.models.response.UsuarioListaResponse;
+import br.com.brq.brqingresso.entrypoint.models.response.UsuarioAtualizaModelResponse;
+import br.com.brq.brqingresso.entrypoint.models.response.UsuarioListaModelResponse;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
 import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioListaDomain;
@@ -26,8 +29,11 @@ public class UsuarioController {
     private final UsuarioDomainMap usuarioDomainMap;
 
     private final UsuarioListaMap usuarioListaMap;
+
+    private final UsuarioAtualizaMap usuarioAtualizaMap;
     @PostMapping
-    public ResponseEntity<UsuarioModelResponse> cadastrarUsuario (@Valid @RequestBody UsuarioModelRequest usuarioModelRequest) {
+    public ResponseEntity<UsuarioModelResponse> cadastrarUsuario (
+            @Valid @RequestBody UsuarioModelRequest usuarioModelRequest) {
         UsuarioDomain usuarioDomain = usuarioDomainMap.mapToDomain(usuarioModelRequest);
         UsuarioDomain usuarioCadastrado = usuarioUseCase.cadastraUsuario(usuarioDomain);
         UsuarioModelResponse usuarioModelResponse = usuarioDomainMap.mapUsuarioResponse(usuarioCadastrado);
@@ -35,9 +41,10 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioListaResponse>> listarUsuario () {
+    public ResponseEntity<List<UsuarioListaModelResponse>> listarUsuario () {
         List<UsuarioListaDomain> usuarioListaDomain = usuarioUseCase.listaUsuarios();
-        List<UsuarioListaResponse> usuarioListaResponse = usuarioListaMap.mapToUsuarioListaResponse(usuarioListaDomain);
+        List<UsuarioListaModelResponse> usuarioListaResponse =
+                usuarioListaMap.mapToUsuarioListaResponse(usuarioListaDomain);
         return ResponseEntity.ok().body(usuarioListaResponse);
     }
 
@@ -52,5 +59,14 @@ public class UsuarioController {
     public ResponseEntity<Void> excluirUsuario (@PathVariable String id) {
         usuarioUseCase.excluiUsuario(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<UsuarioAtualizaModelResponse> atualizarUsuario (
+            @Valid @RequestBody UsuarioAtualizaModelRequest usuarioRequest, @PathVariable String id) {
+        UsuarioDomain usuarioDomain = usuarioDomainMap.mapToDomain(usuarioRequest);
+        UsuarioDomain usuarioAtualizado = usuarioUseCase.atualizaUsuario(usuarioDomain, id);
+        UsuarioAtualizaModelResponse usuarioResponseAtualiza = usuarioAtualizaMap.mapUsuarioResponse(usuarioAtualizado);
+        return ResponseEntity.ok().body(usuarioResponseAtualiza);
     }
 }

@@ -2,6 +2,7 @@ package br.com.brq.brqingresso.dataprovider.services;
 
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
 import br.com.brq.brqingresso.dataprovider.repositories.UsuarioRepository;
+import br.com.brq.brqingresso.entrypoint.mappers.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioDomainMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioEntityMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioListaMap;
@@ -22,6 +23,7 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
     private final UsuarioEntityMap usuarioEntityMap;
     private final UsuarioDomainMap usuarioDomainMap;
     private final UsuarioListaMap usuarioListaMap;
+    private final UsuarioAtualizaMap usuarioAtualizaMap;
     private final CepService cepService;
 
     @Override
@@ -61,5 +63,16 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
     public void delete(UsuarioDomain usuarioDomain) {
         UsuarioEntity usuarioEntity = usuarioEntityMap.mapToEntity(usuarioDomain);
         usuarioRepository.delete(usuarioEntity);
+    }
+
+    @Override
+    public UsuarioDomain patch(UsuarioDomain usuario, UsuarioDomain usuarioAtualizado) {
+        CepResponse cepResponse = cepService.processCep(usuarioAtualizado.getEndereco().getCep());
+        UsuarioEntity usuarioEntity = usuarioEntityMap.mapToEntity(usuario, cepResponse);
+        UsuarioEntity usuarioEntityAtualizado =
+                usuarioAtualizaMap.mapUsuarioAtualiza(usuarioAtualizado, usuarioEntity, cepResponse);
+        usuarioRepository.save(usuarioEntityAtualizado);
+        UsuarioDomain usuarioDomainAtualizado = usuarioDomainMap.mapToDomain(usuarioEntity);
+        return usuarioDomainAtualizado;
     }
 }

@@ -13,4 +13,5 @@ public interface UsuarioGateway {
     Boolean existsByEmail(String email);
     UsuarioDomain findById(String id);
     void delete(UsuarioDomain usuarioDomain);
+    UsuarioDomain patch(UsuarioDomain usuario, UsuarioDomain usuarioAtualizado);
 }

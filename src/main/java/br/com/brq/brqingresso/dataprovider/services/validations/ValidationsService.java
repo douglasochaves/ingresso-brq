@@ -66,4 +66,10 @@ public class ValidationsService {
         );
         return usuario;
     }
+
+    public UsuarioDomain verificaAtualizacao(UsuarioDomain usuarioDomain, String id) {
+        verificaDataNascimento(usuarioDomain.getDataNascimento());
+        UsuarioDomain usuario = verificaUsuario(id);
+        return usuario;
+    }
 }

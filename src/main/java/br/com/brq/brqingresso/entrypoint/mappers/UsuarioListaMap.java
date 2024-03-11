@@ -1,7 +1,7 @@
 package br.com.brq.brqingresso.entrypoint.mappers;
 
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
-import br.com.brq.brqingresso.entrypoint.models.response.UsuarioListaResponse;
+import br.com.brq.brqingresso.entrypoint.models.response.UsuarioListaModelResponse;
 import br.com.brq.brqingresso.usecase.domains.UsuarioListaDomain;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +21,9 @@ public class UsuarioListaMap {
                 )).collect(Collectors.toList());
     }
 
-    public List<UsuarioListaResponse> mapToUsuarioListaResponse (List<UsuarioListaDomain> usuarios) {
+    public List<UsuarioListaModelResponse> mapToUsuarioListaResponse (List<UsuarioListaDomain> usuarios) {
         return usuarios.stream().map(usuario ->
-                new UsuarioListaResponse(
+                new UsuarioListaModelResponse(
                         usuario.getId(),
                         usuario.getCpf(),
                         usuario.getEmail(),
