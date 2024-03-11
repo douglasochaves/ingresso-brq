@@ -10,4 +10,5 @@ public interface UsuarioUseCase {
 
     UsuarioDomain cadastraUsuario(UsuarioDomain usuario);
     List<UsuarioListaDomain> listaUsuarios();
+    UsuarioDomain detalhaUsuario(String id);
 }

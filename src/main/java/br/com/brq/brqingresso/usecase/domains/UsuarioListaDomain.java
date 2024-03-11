@@ -13,6 +13,5 @@ public class UsuarioListaDomain {
     private String id;
     private String cpf;
     private String email;
-    @JsonProperty("nome_completo")
     private String nomeCompleto;
 }

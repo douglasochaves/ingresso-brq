@@ -39,4 +39,11 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
         List<UsuarioListaDomain> usuariosDomain = usuarioListaMap.mapToUsuarioListaDomain(usuarios);
         return usuariosDomain;
     }
+
+    @Override
+    public UsuarioDomain findById(String id) {
+        UsuarioEntity usuario = usuarioRepository.findById(id).orElse(null);
+        UsuarioDomain usuarioDomain = usuarioDomainMap.mapToDomain(usuario);
+        return usuarioDomain;
+    }
 }

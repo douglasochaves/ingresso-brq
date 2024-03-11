@@ -132,4 +132,25 @@ public class UsuarioDomainMap {
 
         return enderecoResponseMap;
     }
+
+    public UsuarioDomain mapToDomain(UsuarioEntity usuario){
+        if(usuario == null) return null;
+        UsuarioDomain usuarioMap = new UsuarioDomain();
+        EnderecoEntity endereco = usuario.getEndereco();
+
+        usuarioMap.setId(usuario.getId());
+        usuarioMap.setCpf(usuario.getCpf());
+        usuarioMap.setEmail(usuario.getEmail());
+        usuarioMap.setNomeCompleto(usuario.getNomeCompleto());
+        usuarioMap.setSenha(usuario.getSenha());
+        usuarioMap.setApelido(usuario.getApelido());
+        usuarioMap.setDataNascimento(usuario.getDataNascimento());
+        usuarioMap.setCelular(usuario.getCelular());
+        usuarioMap.setGenero(usuario.getGenero());
+        usuarioMap.setDataCadastro(LocalDateTime.now());
+        usuarioMap.setEndereco(mapEnderecoComCep(endereco));
+
+        return usuarioMap;
+    }
+
 }

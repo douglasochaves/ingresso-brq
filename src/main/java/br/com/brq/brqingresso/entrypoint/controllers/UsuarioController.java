@@ -40,4 +40,11 @@ public class UsuarioController {
         List<UsuarioListaResponse> usuarioListaResponse = usuarioListaMap.mapToUsuarioListaResponse(usuarioListaDomain);
         return ResponseEntity.ok().body(usuarioListaResponse);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UsuarioModelResponse> detalharUsuario (@PathVariable String id) {
+        UsuarioDomain usuario = usuarioUseCase.detalhaUsuario(id);
+        UsuarioModelResponse usuarioResponse = usuarioDomainMap.mapUsuarioResponse(usuario);
+        return ResponseEntity.ok().body(usuarioResponse);
+    }
 }

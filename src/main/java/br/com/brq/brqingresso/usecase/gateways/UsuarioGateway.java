@@ -9,4 +9,5 @@ public interface UsuarioGateway {
 
     UsuarioDomain save(UsuarioDomain usuarioDomain);
     List<UsuarioListaDomain> findAll();
+    UsuarioDomain findById(String id);
 }

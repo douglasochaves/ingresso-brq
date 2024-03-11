@@ -17,7 +17,7 @@ public class UsuarioEntityMap {
         UsuarioEntity usuarioMap = new UsuarioEntity();
         EnderecoDomain endereco = usuario.getEndereco();
 
-        usuarioMap.setId(UUID.randomUUID().toString());
+        usuarioMap.setId(usuario.getId());
         usuarioMap.setCpf(usuario.getCpf());
         usuarioMap.setEmail(usuario.getEmail());
         usuarioMap.setNomeCompleto(usuario.getNomeCompleto());

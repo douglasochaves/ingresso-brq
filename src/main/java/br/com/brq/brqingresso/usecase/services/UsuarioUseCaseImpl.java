@@ -28,4 +28,9 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
         List<UsuarioListaDomain> usuarios = usuarioGateway.findAll();
         return usuarios;
     }
+
+    public UsuarioDomain detalhaUsuario(String id) {
+        UsuarioDomain usuario = validationsService.verificaUsuario(id);
+        return usuario;
+    }
 }
