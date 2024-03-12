@@ -14,4 +14,5 @@ public interface UsuarioUseCase {
     UsuarioDomain atualizaUsuario(UsuarioDomain usuarioDomain, String id);
     UsuarioDomain geraHashTrocaSenha(String id);
     void novaSenha(String codigoSeguranca, String novaSenha, String id);
+    void alteraSenha(String senhaAtual, String novaSenha, String id);
 }

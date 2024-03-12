@@ -2,8 +2,6 @@ package br.com.brq.brqingresso.dataprovider.services.validations;
 
 import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.common.constants.CamposConstants;
-import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
-import br.com.brq.brqingresso.dataprovider.repositories.UsuarioRepository;
 import br.com.brq.brqingresso.entrypoint.exception.badrequest.DataNascimentoInvalidaException;
 import br.com.brq.brqingresso.entrypoint.exception.badrequest.FormatoCodigoInvalidoException;
 import br.com.brq.brqingresso.entrypoint.exception.errors.InformacaoDuplicadaException;
@@ -78,7 +76,7 @@ public class ValidationsService {
         return usuario;
     }
 
-    public UsuarioDomain verificaUsuarioNovaSenha(String codigoSeguranca, String novaSenha, String id) {
+    public UsuarioDomain verificaNovaSenha(String codigoSeguranca, String novaSenha, String id) {
         UsuarioDomain usuarioDomain = verificaUsuario(id);
         verificaFormatoCodigoSeguranca(codigoSeguranca);
         verificaCodigoSegurancaUsuario(usuarioDomain, codigoSeguranca);
@@ -124,6 +122,20 @@ public class ValidationsService {
         if(diferencaEmMin > 5){
             throw new TempoExcedidoException(
                     "Tempo máximo de 5 minutos do código de segurança excedido."
+            );
+        }
+    }
+
+    public UsuarioDomain verificaAlteraSenha(String senhaAtual, String id) {
+        UsuarioDomain usuarioDomain = verificaUsuario(id);
+        verificaSenhaAtual(usuarioDomain, senhaAtual);
+        return usuarioDomain;
+    }
+
+    private void verificaSenhaAtual(UsuarioDomain usuario, String senhaAtual) {
+        if(!senhaAtual.equals(usuario.getSenha())){
+            throw new InformacaoIncompativelException(
+                    "A senha informada não corresponde com a atual."
             );
         }
     }

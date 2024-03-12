@@ -3,6 +3,7 @@ package br.com.brq.brqingresso.entrypoint.controllers;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioDomainMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioListaMap;
+import br.com.brq.brqingresso.entrypoint.models.request.AlteraSenhaRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.NovaSenhaRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioAtualizaModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
@@ -33,6 +34,7 @@ public class UsuarioController {
     private final UsuarioListaMap usuarioListaMap;
 
     private final UsuarioAtualizaMap usuarioAtualizaMap;
+
     @PostMapping
     public ResponseEntity<UsuarioModelResponse> cadastrarUsuario (
             @Valid @RequestBody UsuarioModelRequest usuarioModelRequest) {
@@ -84,5 +86,11 @@ public class UsuarioController {
     public ResponseEntity<Void> novaSenha (@Valid @RequestBody NovaSenhaRequest novaSenhaRequest, @PathVariable String id) {
         usuarioUseCase.novaSenha(novaSenhaRequest.getCodigoSeguranca(), novaSenhaRequest.getNovaSenha(), id);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping(value = "/{id}/senhas")
+    public ResponseEntity<Void> alterarSenha (@Valid @RequestBody AlteraSenhaRequest alteraSenhaRequest, @PathVariable String id) {
+        usuarioUseCase.alteraSenha(alteraSenhaRequest.getSenhaAtual(), alteraSenhaRequest.getNovaSenha(), id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

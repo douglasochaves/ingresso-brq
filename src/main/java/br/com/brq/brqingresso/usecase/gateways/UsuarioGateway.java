@@ -15,4 +15,5 @@ public interface UsuarioGateway {
     void delete(UsuarioDomain usuarioDomain);
     UsuarioDomain patch(UsuarioDomain usuario, UsuarioDomain usuarioAtualizado);
     UsuarioDomain saveHash(UsuarioDomain usuarioDomain, String hash);
+    void putSenha(UsuarioDomain usuarioDomain, String novaSenha);
 }

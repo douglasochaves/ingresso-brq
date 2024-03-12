@@ -56,6 +56,12 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
 
     @Override
     public void novaSenha(String codigoSeguranca, String novaSenha, String id) {
-        UsuarioDomain usuarioDomain = validationsService.verificaUsuarioNovaSenha(codigoSeguranca, novaSenha, id);
+        validationsService.verificaNovaSenha(codigoSeguranca, novaSenha, id);
+    }
+
+    @Override
+    public void alteraSenha(String senhaAtual, String novaSenha, String id) {
+        UsuarioDomain usuarioDomain = validationsService.verificaAlteraSenha(senhaAtual, id);
+        usuarioGateway.putSenha(usuarioDomain, novaSenha);
     }
 }

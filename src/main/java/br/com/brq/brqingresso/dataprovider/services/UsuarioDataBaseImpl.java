@@ -86,4 +86,11 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
         UsuarioDomain usuarioComHash = usuarioDomainMap.mapToDomain(usuarioEntity);
         return usuarioComHash;
     }
+
+    @Override
+    public void putSenha(UsuarioDomain usuarioDomain, String novaSenha) {
+        usuarioDomain.setSenha(novaSenha);
+        UsuarioEntity usuarioEntity = usuarioEntityMap.mapToEntity(usuarioDomain);
+        usuarioRepository.save(usuarioEntity);
+    }
 }
