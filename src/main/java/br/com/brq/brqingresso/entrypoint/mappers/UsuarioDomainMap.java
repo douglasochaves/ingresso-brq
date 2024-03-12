@@ -150,6 +150,8 @@ public class UsuarioDomainMap {
         usuarioMap.setCelular(usuario.getCelular());
         usuarioMap.setGenero(usuario.getGenero());
         usuarioMap.setDataCadastro(usuario.getDataCadastro());
+        usuarioMap.setCodigoSeguranca(usuario.getCodigoSeguranca());
+        usuarioMap.setDataHoraCodigoSeguranca(usuario.getDataHoraCodigoSeguranca());
         usuarioMap.setEndereco(mapEnderecoComCep(endereco));
 
         return usuarioMap;

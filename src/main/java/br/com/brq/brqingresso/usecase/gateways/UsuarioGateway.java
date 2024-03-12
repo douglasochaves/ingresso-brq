@@ -14,4 +14,5 @@ public interface UsuarioGateway {
     UsuarioDomain findById(String id);
     void delete(UsuarioDomain usuarioDomain);
     UsuarioDomain patch(UsuarioDomain usuario, UsuarioDomain usuarioAtualizado);
+    UsuarioDomain saveHash(UsuarioDomain usuarioDomain, String hash);
 }

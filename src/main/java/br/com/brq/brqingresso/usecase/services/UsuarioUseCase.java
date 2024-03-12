@@ -12,4 +12,6 @@ public interface UsuarioUseCase {
     UsuarioDomain detalhaUsuario(String id);
     void excluiUsuario(String id);
     UsuarioDomain atualizaUsuario(UsuarioDomain usuarioDomain, String id);
+    UsuarioDomain geraHashTrocaSenha(String id);
+    void novaSenha(String codigoSeguranca, String novaSenha, String id);
 }

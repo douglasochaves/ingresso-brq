@@ -3,8 +3,10 @@ package br.com.brq.brqingresso.entrypoint.controllers;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioAtualizaMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioDomainMap;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioListaMap;
+import br.com.brq.brqingresso.entrypoint.models.request.NovaSenhaRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioAtualizaModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
+import br.com.brq.brqingresso.entrypoint.models.response.GeraHashTrocaSenhaResponse;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioAtualizaModelResponse;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioListaModelResponse;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
@@ -68,5 +70,19 @@ public class UsuarioController {
         UsuarioDomain usuarioAtualizado = usuarioUseCase.atualizaUsuario(usuarioDomain, id);
         UsuarioAtualizaModelResponse usuarioResponseAtualiza = usuarioAtualizaMap.mapUsuarioResponse(usuarioAtualizado);
         return ResponseEntity.ok().body(usuarioResponseAtualiza);
+    }
+
+    @GetMapping(value = "/{id}/senhas")
+    public ResponseEntity<GeraHashTrocaSenhaResponse> gerarHashTrocaSenha (@PathVariable String id) {
+        UsuarioDomain usuarioDomain = usuarioUseCase.geraHashTrocaSenha(id);
+        GeraHashTrocaSenhaResponse hashTrocaSenha = new GeraHashTrocaSenhaResponse();
+        hashTrocaSenha.setCodigoSeguranca(usuarioDomain.getCodigoSeguranca());
+        return ResponseEntity.ok().body(hashTrocaSenha);
+    }
+
+    @PostMapping(value = "/{id}/senhas")
+    public ResponseEntity<Void> novaSenha (@Valid @RequestBody NovaSenhaRequest novaSenhaRequest, @PathVariable String id) {
+        usuarioUseCase.novaSenha(novaSenhaRequest.getCodigoSeguranca(), novaSenhaRequest.getNovaSenha(), id);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

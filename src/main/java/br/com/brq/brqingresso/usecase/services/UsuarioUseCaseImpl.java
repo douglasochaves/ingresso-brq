@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -43,5 +44,18 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
         UsuarioDomain usuario = validationsService.verificaAtualizacao(usuarioAtualizado, id);
         UsuarioDomain usuarioAtualizadoSalvo = usuarioGateway.patch(usuario, usuarioAtualizado);
         return usuarioAtualizadoSalvo;
+    }
+
+    @Override
+    public UsuarioDomain geraHashTrocaSenha(String id) {
+        UsuarioDomain usuarioDomain = validationsService.verificaUsuario(id);
+        String hash = UUID.randomUUID().toString();
+        UsuarioDomain usuarioCadastrado = usuarioGateway.saveHash(usuarioDomain, hash);
+        return usuarioCadastrado;
+    }
+
+    @Override
+    public void novaSenha(String codigoSeguranca, String novaSenha, String id) {
+        UsuarioDomain usuarioDomain = validationsService.verificaUsuarioNovaSenha(codigoSeguranca, novaSenha, id);
     }
 }

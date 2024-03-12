@@ -1,5 +1,6 @@
 package br.com.brq.brqingresso.dataprovider.services;
 
+import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
 import br.com.brq.brqingresso.dataprovider.repositories.UsuarioRepository;
 import br.com.brq.brqingresso.entrypoint.mappers.UsuarioAtualizaMap;
@@ -74,5 +75,15 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
         usuarioRepository.save(usuarioEntityAtualizado);
         UsuarioDomain usuarioDomainAtualizado = usuarioDomainMap.mapToDomain(usuarioEntity);
         return usuarioDomainAtualizado;
+    }
+
+    @Override
+    public UsuarioDomain saveHash(UsuarioDomain usuarioDomain, String hash) {
+        usuarioDomain.setCodigoSeguranca(hash);
+        usuarioDomain.setDataHoraCodigoSeguranca(Helpers.dataHoraAtualFormatada());
+        UsuarioEntity usuarioEntity = usuarioEntityMap.mapToEntity(usuarioDomain);
+        usuarioRepository.save(usuarioEntity);
+        UsuarioDomain usuarioComHash = usuarioDomainMap.mapToDomain(usuarioEntity);
+        return usuarioComHash;
     }
 }

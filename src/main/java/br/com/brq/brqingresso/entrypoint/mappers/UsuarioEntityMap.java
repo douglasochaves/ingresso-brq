@@ -61,6 +61,8 @@ public class UsuarioEntityMap {
         usuarioMap.setCelular(usuario.getCelular());
         usuarioMap.setGenero(usuario.getGenero());
         usuarioMap.setDataCadastro(LocalDateTime.now());
+        usuarioMap.setCodigoSeguranca(usuario.getCodigoSeguranca());
+        usuarioMap.setDataHoraCodigoSeguranca(usuario.getDataHoraCodigoSeguranca());
         usuarioMap.setEndereco(mapEndereco(endereco));
 
         return usuarioMap;
