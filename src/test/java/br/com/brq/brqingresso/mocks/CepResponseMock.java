@@ -1,4 +1,4 @@
-package br.com.brq.brqingresso.common.mocks;
+package br.com.brq.brqingresso.mocks;
 
 import br.com.brq.brqingresso.entrypoint.models.response.CepResponse;
 

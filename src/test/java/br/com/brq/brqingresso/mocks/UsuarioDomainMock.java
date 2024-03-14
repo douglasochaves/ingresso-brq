@@ -1,4 +1,4 @@
-package br.com.brq.brqingresso.common.mocks;
+package br.com.brq.brqingresso.mocks;
 
 import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
@@ -6,7 +6,7 @@ import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 
 import java.time.LocalDateTime;
 
-public class UsuarioMock {
+public class UsuarioDomainMock {
 
     public static UsuarioDomain getUsuario() {
         UsuarioDomain usuario = new UsuarioDomain();

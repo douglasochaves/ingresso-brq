@@ -1,13 +1,15 @@
-package br.com.brq.brqingresso.common.mocks;
+package br.com.brq.brqingresso.mocks;
 
 import br.com.brq.brqingresso.entrypoint.models.request.EnderecoModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioAtualizaModelRequest;
+import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
+import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 
 public class UsuarioAtualizaRequestMock {
 
-    public static UsuarioAtualizaModelRequest getUsuarioAtualizaRequestMock(){
-        UsuarioAtualizaModelRequest usuarioAtualizaRequest = new UsuarioAtualizaModelRequest();
-        EnderecoModelRequest enderecoRequest = new EnderecoModelRequest();
+    public static UsuarioDomain getUsuarioAtualizaRequestMock(){
+        UsuarioDomain usuarioAtualizaRequest = new UsuarioDomain();
+        EnderecoDomain enderecoRequest = new EnderecoDomain();
 
         usuarioAtualizaRequest.setCpf("41986472833");
         usuarioAtualizaRequest.setEmail("dodochaves123@gmail.com");
@@ -16,7 +18,7 @@ public class UsuarioAtualizaRequestMock {
         usuarioAtualizaRequest.setApelido("Dodo");
         usuarioAtualizaRequest.setDataNascimento("2002-03-03");
         usuarioAtualizaRequest.setCelular(12997411365L);
-        usuarioAtualizaRequest.setGenero("M");
+        usuarioAtualizaRequest.setGenero(1);
 
         enderecoRequest.setNumero("54");
         enderecoRequest.setCep("12234110");

@@ -8,11 +8,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Helpers {
 
-    public static String convertDateToString(LocalDateTime date) {
-        if(date == null) return null;
-        return date.toString();
-    }
-
     public static LocalDate convertStringToDate(String string) {
         if(string == null) return null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -25,11 +20,6 @@ public class Helpers {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         LocalDateTime dateTime = LocalDateTime.parse(string, formatter);
         return dateTime;
-    }
-
-    public static Integer convertStringToInt(String string) {
-        if(string == null) return null;
-        return Integer.parseInt(string);
     }
 
     public static String dataHoraAtualFormatada() {

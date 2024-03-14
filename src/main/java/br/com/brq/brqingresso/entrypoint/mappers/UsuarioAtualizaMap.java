@@ -3,11 +3,8 @@ package br.com.brq.brqingresso.entrypoint.mappers;
 import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.dataprovider.entities.EnderecoEntity;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
-import br.com.brq.brqingresso.entrypoint.models.request.EnderecoModelRequest;
-import br.com.brq.brqingresso.entrypoint.models.request.UsuarioAtualizaModelRequest;
 import br.com.brq.brqingresso.entrypoint.models.response.CepResponse;
 import br.com.brq.brqingresso.entrypoint.models.response.UsuarioAtualizaModelResponse;
-import br.com.brq.brqingresso.entrypoint.models.response.UsuarioModelResponse;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 import org.springframework.stereotype.Component;
@@ -16,59 +13,6 @@ import java.time.LocalDateTime;
 
 @Component
 public class UsuarioAtualizaMap {
-
-//    public UsuarioDomain mapToDomainAtualiza(UsuarioAtualizaModelRequest usuarioRequest, UsuarioDomain usuario, CepResponse cepResponse){
-//
-//        UsuarioDomain usuarioMap = usuario;
-//        EnderecoModelRequest enderecoRequest = usuarioRequest.getEndereco();
-//
-//        if(enderecoRequest != null) {
-//            mapAtualizaComEndereco(usuarioRequest, usuarioMap, enderecoRequest, cepResponse);
-//        } else {
-//            mapAtualizaSemEndereco(usuarioRequest, usuarioMap);
-//        }
-//
-//        return usuarioMap;
-//    }
-
-//    private static void mapAtualizaSemEndereco(UsuarioAtualizaModelRequest usuarioRequest, UsuarioDomain usuario) {
-//        if (usuarioRequest.getNomeCompleto() != null)
-//            usuario.setNomeCompleto(usuarioRequest.getNomeCompleto());
-//        if (usuarioRequest.getApelido() != null)
-//            usuario.setApelido(usuarioRequest.getApelido());
-//        if (usuarioRequest.getDataNascimento() != null)
-//            usuario.setDataNascimento(usuarioRequest.getDataNascimento());
-//        if (usuarioRequest.getCelular() != null)
-//            usuario.setCelular(usuarioRequest.getCelular());
-//        if (usuarioRequest.getGenero() != null)
-//            usuario.setGenero(generoUsuario(usuarioRequest.getGenero()));
-//        usuario.setDataAtualizacao(LocalDateTime.now());
-//    }
-//
-//    private static void mapAtualizaComEndereco (
-//            UsuarioAtualizaModelRequest usuarioRequest,
-//            UsuarioDomain usuario,
-//            EnderecoModelRequest enderecoRequest,
-//            CepResponse cepResponse
-//    ) {
-//        mapAtualizaSemEndereco(usuarioRequest, usuario);
-//        usuario.setEndereco(mapEndereco(enderecoRequest, cepResponse));
-//    }
-//
-//    private static Integer generoUsuario(String genero) {
-//        switch (genero) {
-//            case "M":
-//                return 1;
-//            case "F":
-//                return 2;
-//            case "B":
-//                return 3;
-//            case "N":
-//                return 4;
-//            default:
-//                return null;
-//        }
-//    }
 
     public static UsuarioEntity mapUsuarioAtualiza(
             UsuarioDomain usuarioAtualiza, UsuarioEntity usuarioEntity, CepResponse cepResponse){

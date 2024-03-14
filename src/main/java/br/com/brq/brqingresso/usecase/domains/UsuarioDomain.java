@@ -1,6 +1,5 @@
 package br.com.brq.brqingresso.usecase.domains;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

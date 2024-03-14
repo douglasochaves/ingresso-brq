@@ -1,11 +1,9 @@
-package br.com.brq.brqingresso.common.mocks;
+package br.com.brq.brqingresso.mocks;
 
 import br.com.brq.brqingresso.dataprovider.entities.EnderecoEntity;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
-import br.com.brq.brqingresso.entrypoint.models.request.EnderecoModelRequest;
-import br.com.brq.brqingresso.entrypoint.models.request.UsuarioModelRequest;
 
-public class UsuarioRequestMock {
+public class UsuarioEntityMock {
 
     public static UsuarioEntity getUsuarioRequestMock(){
         UsuarioEntity usuarioRequest = new UsuarioEntity();
