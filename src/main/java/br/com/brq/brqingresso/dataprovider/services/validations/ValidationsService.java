@@ -80,7 +80,7 @@ public class ValidationsService {
         UsuarioDomain usuarioDomain = verificaUsuario(id);
         verificaFormatoCodigoSeguranca(codigoSeguranca);
         verificaCodigoSegurancaUsuario(usuarioDomain, codigoSeguranca);
-        verificaNovaSenha(usuarioDomain, novaSenha);
+        verificaNovaSenhaIgual(usuarioDomain, novaSenha);
         verificaTempoExcedido(usuarioDomain.getDataHoraCodigoSeguranca());
         return usuarioDomain;
     }
@@ -105,7 +105,7 @@ public class ValidationsService {
         }
     }
 
-    private void verificaNovaSenha(UsuarioDomain usuario, String novaSenha) {
+    private void verificaNovaSenhaIgual(UsuarioDomain usuario, String novaSenha) {
         if(novaSenha.equals(usuario.getSenha())){
             throw new InformacaoIncompativelException(
                     "A nova senha não pode ser igual a senha atual."
