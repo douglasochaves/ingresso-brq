@@ -1,6 +1,5 @@
 package br.com.brq.brqingresso.dataprovider.services.validations;
 
-import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.entrypoint.exception.badrequest.DataNascimentoInvalidaException;
 import br.com.brq.brqingresso.entrypoint.exception.badrequest.FormatoCodigoInvalidoException;
 import br.com.brq.brqingresso.entrypoint.exception.errors.InformacaoDuplicadaException;
@@ -16,10 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

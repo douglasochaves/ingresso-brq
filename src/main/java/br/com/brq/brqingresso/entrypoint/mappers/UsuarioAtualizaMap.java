@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Component
 public class UsuarioAtualizaMap {
 
-    public static UsuarioEntity mapUsuarioAtualiza(
+    public UsuarioEntity mapUsuarioAtualiza(
             UsuarioDomain usuarioAtualiza, UsuarioEntity usuarioEntity, CepResponse cepResponse){
 
         UsuarioEntity usuarioMap = usuarioEntity;

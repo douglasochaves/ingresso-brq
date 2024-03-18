@@ -45,7 +45,7 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
 
     @Override
     public Boolean existsByCpf(String cpf) {
-        return usuarioRepository.existsByEmail(cpf);
+        return usuarioRepository.existsByCpf(cpf);
     }
 
     @Override
