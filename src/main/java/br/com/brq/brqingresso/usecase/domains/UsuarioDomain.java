@@ -19,7 +19,7 @@ public class UsuarioDomain {
     private String apelido;
     private String dataNascimento;
     private Long celular;
-    private Integer genero;
+    private String genero;
     private LocalDateTime dataCadastro;
     private LocalDateTime dataAtualizacao;
     private String codigoSeguranca;

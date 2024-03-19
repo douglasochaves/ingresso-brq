@@ -1,6 +1,6 @@
-package br.com.brq.brqingresso.common.annotations;
+package br.com.brq.brqingresso.entrypoint.annotations;
 
-import br.com.brq.brqingresso.common.validatedby.SemTresLetrasConsecutivasValidator;
+import br.com.brq.brqingresso.entrypoint.validator.SemTresLetrasConsecutivasValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

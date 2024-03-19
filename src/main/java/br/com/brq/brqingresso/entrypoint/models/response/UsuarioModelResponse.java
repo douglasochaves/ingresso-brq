@@ -27,6 +27,6 @@ public class UsuarioModelResponse {
     @JsonProperty("data_cadastro")
     private String dataCadastro;
 
-    private EnderecoDomain endereco;
+    private EnderecoModelResponse endereco;
 
 }

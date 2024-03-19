@@ -2,7 +2,7 @@ package br.com.brq.brqingresso.usecase.services;
 
 import br.com.brq.brqingresso.dataprovider.services.CepService;
 import br.com.brq.brqingresso.dataprovider.services.validations.ValidationsService;
-import br.com.brq.brqingresso.entrypoint.models.response.CepResponse;
+import br.com.brq.brqingresso.usecase.domains.CepDomain;
 import br.com.brq.brqingresso.mocks.CepResponseMock;
 import br.com.brq.brqingresso.mocks.UsuarioDomainMock;
 import br.com.brq.brqingresso.mocks.UsuarioListaDomainMock;
@@ -27,7 +27,7 @@ class UsuarioUseCaseImplTest {
 
     private UsuarioDomain usuario;
     private UsuarioListaDomain usuarioLista;
-    private CepResponse cepResponse;
+    private CepDomain cepResponse;
     @Mock
     private ValidationsService validationsService;
     @Mock
@@ -78,12 +78,12 @@ class UsuarioUseCaseImplTest {
     @Test
     void testAtualizaUsuarioSuccess(){
         when(validationsService.verificaAtualizacao(usuario, "123")).thenReturn(usuario);
-        when(usuarioGateway.patch(usuario, usuario)).thenReturn(usuario);
+        when(usuarioGateway.patch(usuario)).thenReturn(usuario);
         doReturn(cepResponse).when(cepService).processCep(Mockito.anyString());
         UsuarioDomain usuarioAtualizado = usuarioService.atualizaUsuario(usuario, usuario.getId());
 
         assertAll(
-                () -> verify(usuarioGateway).patch(usuario, usuario),
+                () -> verify(usuarioGateway).patch(usuario),
                 () -> assertNotNull(usuarioAtualizado)
         );
     }

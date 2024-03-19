@@ -1,6 +1,6 @@
-package br.com.brq.brqingresso.common.annotations;
+package br.com.brq.brqingresso.entrypoint.annotations;
 
-import br.com.brq.brqingresso.common.validatedby.EstadoBrasilValidator;
+import br.com.brq.brqingresso.entrypoint.validator.QuantidadeDigitosValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,8 +12,9 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EstadoBrasilValidator.class)
-public @interface EstadoBrasil {
+@Constraint(validatedBy = QuantidadeDigitosValidator.class)
+public @interface QuantidadeDigitos {
+    int value();
     String message() default "";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

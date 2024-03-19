@@ -1,6 +1,6 @@
-package br.com.brq.brqingresso.common.validatedby;
+package br.com.brq.brqingresso.entrypoint.validator;
 
-import br.com.brq.brqingresso.common.annotations.QuantidadeDigitos;
+import br.com.brq.brqingresso.entrypoint.annotations.QuantidadeDigitos;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

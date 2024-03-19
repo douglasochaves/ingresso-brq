@@ -1,6 +1,6 @@
 package br.com.brq.brqingresso.dataprovider.services;
 
-import br.com.brq.brqingresso.entrypoint.models.response.CepResponse;
+import br.com.brq.brqingresso.usecase.domains.CepDomain;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CepClient {
 
     @GetMapping(value = "/ws/{cep}/json/")
-    CepResponse buscaCep (@PathVariable String cep);
+    CepDomain buscaCep (@PathVariable String cep);
 
 }

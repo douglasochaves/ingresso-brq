@@ -18,7 +18,7 @@ public class UsuarioAtualizaRequestMock {
         usuarioAtualizaRequest.setApelido("Dodo");
         usuarioAtualizaRequest.setDataNascimento("2002-03-03");
         usuarioAtualizaRequest.setCelular(12997411365L);
-        usuarioAtualizaRequest.setGenero(1);
+        usuarioAtualizaRequest.setGenero("");
 
         enderecoRequest.setNumero("54");
         enderecoRequest.setCep("12234110");

@@ -1,11 +1,11 @@
 package br.com.brq.brqingresso.mocks;
 
-import br.com.brq.brqingresso.entrypoint.models.response.CepResponse;
+import br.com.brq.brqingresso.usecase.domains.CepDomain;
 
 public class CepResponseMock {
 
-    public static CepResponse getCepResponseMock() {
-        CepResponse cepResponse = new CepResponse();
+    public static CepDomain getCepResponseMock() {
+        CepDomain cepResponse = new CepDomain();
 
         cepResponse.setCep("12234110");
         cepResponse.setLogradouro("Praça Otávio Del Nero");

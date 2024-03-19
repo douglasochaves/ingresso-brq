@@ -1,8 +1,6 @@
 package br.com.brq.brqingresso.entrypoint.controllers;
 
-import br.com.brq.brqingresso.entrypoint.mappers.UsuarioAtualizaMap;
-import br.com.brq.brqingresso.entrypoint.mappers.UsuarioDomainMap;
-import br.com.brq.brqingresso.entrypoint.mappers.UsuarioListaMap;
+import br.com.brq.brqingresso.entrypoint.mappers.UsuarioMapper;
 import br.com.brq.brqingresso.entrypoint.models.request.AlteraSenhaRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.NovaSenhaRequest;
 import br.com.brq.brqingresso.entrypoint.models.request.UsuarioAtualizaModelRequest;
@@ -29,33 +27,27 @@ public class UsuarioController {
 
     private final UsuarioUseCase usuarioUseCase;
 
-    private final UsuarioDomainMap usuarioDomainMap;
-
-    private final UsuarioListaMap usuarioListaMap;
-
-    private final UsuarioAtualizaMap usuarioAtualizaMap;
 
     @PostMapping
     public ResponseEntity<UsuarioModelResponse> cadastrarUsuario (
             @Valid @RequestBody UsuarioModelRequest usuarioModelRequest) {
-        UsuarioDomain usuarioDomain = usuarioDomainMap.mapToDomain(usuarioModelRequest);
+        UsuarioDomain usuarioDomain = UsuarioMapper.mapToDomain(usuarioModelRequest);
         UsuarioDomain usuarioCadastrado = usuarioUseCase.cadastraUsuario(usuarioDomain);
-        UsuarioModelResponse usuarioModelResponse = usuarioDomainMap.mapUsuarioResponse(usuarioCadastrado);
+        UsuarioModelResponse usuarioModelResponse = UsuarioMapper.maptoResponse(usuarioCadastrado);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioModelResponse);
     }
 
     @GetMapping
     public ResponseEntity<List<UsuarioListaModelResponse>> listarUsuario () {
         List<UsuarioListaDomain> usuarioListaDomain = usuarioUseCase.listaUsuarios();
-        List<UsuarioListaModelResponse> usuarioListaResponse =
-                usuarioListaMap.mapToUsuarioListaResponse(usuarioListaDomain);
+        List<UsuarioListaModelResponse> usuarioListaResponse = UsuarioMapper.mapToResponse(usuarioListaDomain);
         return ResponseEntity.ok().body(usuarioListaResponse);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UsuarioModelResponse> detalharUsuario (@PathVariable String id) {
         UsuarioDomain usuario = usuarioUseCase.detalhaUsuario(id);
-        UsuarioModelResponse usuarioResponse = usuarioDomainMap.mapUsuarioResponse(usuario);
+        UsuarioModelResponse usuarioResponse = UsuarioMapper.maptoResponse(usuario);
         return ResponseEntity.ok().body(usuarioResponse);
     }
 
@@ -68,9 +60,9 @@ public class UsuarioController {
     @PatchMapping(value = "/{id}")
     public ResponseEntity<UsuarioAtualizaModelResponse> atualizarUsuario (
             @Valid @RequestBody UsuarioAtualizaModelRequest usuarioRequest, @PathVariable String id) {
-        UsuarioDomain usuarioDomain = usuarioDomainMap.mapToDomain(usuarioRequest);
+        UsuarioDomain usuarioDomain = UsuarioMapper.mapToDomain(usuarioRequest);
         UsuarioDomain usuarioAtualizado = usuarioUseCase.atualizaUsuario(usuarioDomain, id);
-        UsuarioAtualizaModelResponse usuarioResponseAtualiza = usuarioAtualizaMap.mapUsuarioResponse(usuarioAtualizado);
+        UsuarioAtualizaModelResponse usuarioResponseAtualiza = UsuarioMapper.mapToResponse(usuarioAtualizado);
         return ResponseEntity.ok().body(usuarioResponseAtualiza);
     }
 

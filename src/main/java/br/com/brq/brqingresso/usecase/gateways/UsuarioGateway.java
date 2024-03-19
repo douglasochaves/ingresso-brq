@@ -13,7 +13,7 @@ public interface UsuarioGateway {
     Boolean existsByEmail(String email);
     UsuarioDomain findById(String id);
     void delete(UsuarioDomain usuarioDomain);
-    UsuarioDomain patch(UsuarioDomain usuario, UsuarioDomain usuarioAtualizado);
+    UsuarioDomain patch(UsuarioDomain usuarioAtualizado);
     UsuarioDomain saveHash(UsuarioDomain usuarioDomain, String hash);
     void putSenha(UsuarioDomain usuarioDomain, String novaSenha);
 }

@@ -20,7 +20,7 @@ public class UsuarioDomainMock {
         usuario.setApelido("Dodo");
         usuario.setDataNascimento("2002-03-03");
         usuario.setCelular(12997411365L);
-        usuario.setGenero(1);
+        usuario.setGenero("");
         usuario.setDataCadastro(LocalDateTime.now());
         usuario.setCodigoSeguranca("2d08dca7-620d-4233-a496-28c6f637f8a8");
         usuario.setDataHoraCodigoSeguranca(Helpers.dataHoraAtualFormatada());

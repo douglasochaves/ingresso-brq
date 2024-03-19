@@ -1,11 +1,11 @@
-package br.com.brq.brqingresso.entrypoint.models.response;
+package br.com.brq.brqingresso.usecase.domains;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CepResponse {
+public class CepDomain {
 
     private String cep;
     private String logradouro;
