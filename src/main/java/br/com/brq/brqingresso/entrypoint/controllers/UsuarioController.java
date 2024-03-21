@@ -59,7 +59,7 @@ public class UsuarioController {
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity<UsuarioAtualizaModelResponse> atualizarUsuario (
-            @Valid @RequestBody UsuarioAtualizaModelRequest usuarioRequest, @PathVariable String id) {
+            @RequestBody UsuarioAtualizaModelRequest usuarioRequest, @PathVariable String id) {
         UsuarioDomain usuarioDomain = UsuarioMapper.mapToDomain(usuarioRequest);
         UsuarioDomain usuarioAtualizado = usuarioUseCase.atualizaUsuario(usuarioDomain, id);
         UsuarioAtualizaModelResponse usuarioResponseAtualiza = UsuarioMapper.mapToResponse(usuarioAtualizado);

@@ -64,12 +64,12 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
             UsuarioDomain usuarioDomain = UsuarioMapper.mapEndereco(usuarioAtualizado, cepDomain);
             usuarioDomain.setId(usuario.getId());
             UsuarioDomain usuarioDomainAtualizado =
-                    UsuarioMapper.mapToDomain(usuarioAtualizado, usuarioDomain);
+                    UsuarioMapper.mapAtualizaComEndereco(usuarioAtualizado, usuarioDomain);
             return usuarioGateway.patch(usuarioDomainAtualizado);
         }
 
         UsuarioDomain usuarioDomainAtualizado =
-                UsuarioMapper.mapToDomain(usuarioAtualizado, usuario);
+                UsuarioMapper.mapAtualizaSemEndereco(usuarioAtualizado, usuario);
         return usuarioGateway.patch(usuarioDomainAtualizado);
     }
 

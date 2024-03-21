@@ -2,6 +2,7 @@ package br.com.brq.brqingresso.entrypoint.exception.handler;
 
 import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.entrypoint.exception.badrequest.BadRequestException;
+import br.com.brq.brqingresso.entrypoint.exception.badrequest.CamposAusentesException;
 import br.com.brq.brqingresso.entrypoint.exception.badrequest.DataNascimentoInvalidaException;
 import br.com.brq.brqingresso.entrypoint.exception.badrequest.FormatoCodigoInvalidoException;
 import br.com.brq.brqingresso.entrypoint.exception.errors.*;
@@ -69,6 +70,13 @@ public class IngressoExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(FormatoCodigoInvalidoException.class)
     public static ResponseEntity<CorpoMensagemBadRequestResponse> handleFormatoCodigo (
             FormatoCodigoInvalidoException e) {
+        CorpoMensagemBadRequestResponse corpoMensagemBadRequestResponse = getCorpoMensagemBadRequestResponse(e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemBadRequestResponse);
+    }
+
+    @ExceptionHandler(CamposAusentesException.class)
+    public static ResponseEntity<CorpoMensagemBadRequestResponse> handleFormatoCodigo (
+            CamposAusentesException e) {
         CorpoMensagemBadRequestResponse corpoMensagemBadRequestResponse = getCorpoMensagemBadRequestResponse(e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(corpoMensagemBadRequestResponse);
     }

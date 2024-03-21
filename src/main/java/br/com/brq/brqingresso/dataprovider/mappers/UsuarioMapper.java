@@ -36,6 +36,7 @@ public class UsuarioMapper {
     }
 
     private static Integer mapGenero(String genero) {
+        if(genero == null) return null;
         switch (genero) {
             case "M":
                 return 1;
