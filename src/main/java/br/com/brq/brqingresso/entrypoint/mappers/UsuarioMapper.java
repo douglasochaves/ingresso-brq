@@ -133,45 +133,4 @@ public class UsuarioMapper {
 
         return usuario;
     }
-
-    public static UsuarioDomain mapUsuarioAtualiza (UsuarioModelRequest usuarioModelRequest){
-
-        UsuarioDomain usuario = new UsuarioDomain();
-        EnderecoModelRequest endereco = usuarioModelRequest.getEndereco();
-
-        if(endereco != null) {
-            mapAtualizaComEndereco(usuarioModelRequest, usuario, endereco);
-        } else {
-            mapAtualizaSemEndereco(usuarioModelRequest, usuario);
-        }
-
-        return usuario;
-    }
-
-    private static void mapAtualizaSemEndereco(UsuarioModelRequest usuarioModelRequest, UsuarioDomain usuarioDomain) {
-        if(usuarioModelRequest.getCpf() != null)
-            usuarioDomain.setCpf(usuarioModelRequest.getCpf());
-        if(usuarioModelRequest.getEmail() != null)
-            usuarioDomain.setEmail(usuarioModelRequest.getEmail());
-        if (usuarioModelRequest.getNomeCompleto() != null)
-            usuarioDomain.setNomeCompleto(usuarioModelRequest.getNomeCompleto());
-        if (usuarioModelRequest.getApelido() != null)
-            usuarioDomain.setApelido(usuarioModelRequest.getApelido());
-        if (usuarioModelRequest.getDataNascimento() != null)
-            usuarioDomain.setDataNascimento(usuarioModelRequest.getDataNascimento());
-        if (usuarioModelRequest.getCelular() != null)
-            usuarioDomain.setCelular(usuarioModelRequest.getCelular());
-        if (usuarioModelRequest.getGenero() != null)
-            usuarioDomain.setGenero(usuarioModelRequest.getGenero());
-        usuarioDomain.setDataAtualizacao(LocalDateTime.now());
-    }
-
-    private static void mapAtualizaComEndereco (
-            UsuarioModelRequest usuarioModelRequest,
-            UsuarioDomain usuarioDomain,
-            EnderecoModelRequest enderecoRequest
-    ) {
-        mapAtualizaSemEndereco(usuarioModelRequest, usuarioDomain);
-        usuarioDomain.setEndereco(mapEndereco(enderecoRequest));
-    }
 }

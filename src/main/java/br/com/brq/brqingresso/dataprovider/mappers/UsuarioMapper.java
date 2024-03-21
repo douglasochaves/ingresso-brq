@@ -16,25 +16,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UsuarioMapper {
 
-    public static UsuarioEntity mapToEntity(UsuarioDomain usuarioDomain, CepDomain cepResponse){
-        UsuarioEntity usuario = new UsuarioEntity();
-        EnderecoDomain endereco = usuarioDomain.getEndereco();
-
-        usuario.setId(usuarioDomain.getId());
-        usuario.setCpf(usuarioDomain.getCpf());
-        usuario.setEmail(usuarioDomain.getEmail());
-        usuario.setNomeCompleto(usuarioDomain.getNomeCompleto());
-        usuario.setSenha(usuarioDomain.getSenha());
-        usuario.setApelido(usuarioDomain.getApelido());
-        usuario.setDataNascimento(usuarioDomain.getDataNascimento());
-        usuario.setCelular(usuarioDomain.getCelular());
-        usuario.setGenero(mapGenero(usuarioDomain.getGenero()));
-        usuario.setDataCadastro(usuarioDomain.getDataCadastro());
-        usuario.setEndereco(mapEndereco(endereco, cepResponse));
-
-        return usuario;
-    }
-
     private static Integer mapGenero(String genero) {
         if(genero == null) return null;
         switch (genero) {
@@ -51,22 +32,6 @@ public class UsuarioMapper {
         }
     }
 
-    private static EnderecoEntity mapEndereco(EnderecoDomain enderecoDomain, CepDomain cepResponse){
-        if(enderecoDomain == null || cepResponse == null) return null;
-        EnderecoEntity endereco = new EnderecoEntity();
-
-        endereco.setLogradouro(cepResponse.getLogradouro());
-        endereco.setNumero(enderecoDomain.getNumero());
-        endereco.setBairro(cepResponse.getBairro());
-        endereco.setCidade(cepResponse.getLocalidade());
-        endereco.setEstado(cepResponse.getUf());
-        endereco.setCep(enderecoDomain.getCep());
-        endereco.setPais("BR");
-        endereco.setComplemento(enderecoDomain.getComplemento());
-
-        return endereco;
-    }
-
     public static UsuarioEntity mapToEntity(UsuarioDomain usuarioDomain){
         UsuarioEntity usuario = new UsuarioEntity();
         EnderecoDomain endereco = usuarioDomain.getEndereco();
@@ -81,6 +46,7 @@ public class UsuarioMapper {
         usuario.setCelular(usuarioDomain.getCelular());
         usuario.setGenero(mapGenero(usuarioDomain.getGenero()));
         usuario.setDataCadastro(LocalDateTime.now());
+        usuario.setDataAtualizacao(usuarioDomain.getDataAtualizacao());
         usuario.setCodigoSeguranca(usuarioDomain.getCodigoSeguranca());
         usuario.setDataHoraCodigoSeguranca(usuarioDomain.getDataHoraCodigoSeguranca());
         usuario.setEndereco(mapEndereco(endereco));
@@ -172,6 +138,50 @@ public class UsuarioMapper {
                         usuario.getEmail(),
                         usuario.getNomeCompleto()
                 )).collect(Collectors.toList());
+    }
+
+    public static UsuarioEntity mapToEntityAtualiza(UsuarioDomain usuarioDomain){
+        UsuarioEntity usuario = new UsuarioEntity();
+        EnderecoDomain endereco = usuarioDomain.getEndereco();
+
+        usuario.setId(usuarioDomain.getId());
+        usuario.setCpf(usuarioDomain.getCpf());
+        usuario.setEmail(usuarioDomain.getEmail());
+        usuario.setNomeCompleto(usuarioDomain.getNomeCompleto());
+        usuario.setSenha(usuarioDomain.getSenha());
+        usuario.setApelido(usuarioDomain.getApelido());
+        usuario.setDataNascimento(usuarioDomain.getDataNascimento());
+        usuario.setCelular(usuarioDomain.getCelular());
+        usuario.setGenero(mapGenero(usuarioDomain.getGenero()));
+        usuario.setDataCadastro(usuarioDomain.getDataCadastro());
+        usuario.setDataAtualizacao(usuarioDomain.getDataAtualizacao());
+        usuario.setEndereco(mapEndereco(endereco));
+
+        return usuario;
+    }
+
+    public static UsuarioDomain mapToDomainAtualiza(UsuarioEntity usuarioEntity){
+        if(usuarioEntity == null) return null;
+
+        UsuarioDomain usuario = new UsuarioDomain();
+        EnderecoEntity endereco = usuarioEntity.getEndereco();
+
+        usuario.setId(usuarioEntity.getId());
+        usuario.setCpf(usuarioEntity.getCpf());
+        usuario.setEmail(usuarioEntity.getEmail());
+        usuario.setNomeCompleto(usuarioEntity.getNomeCompleto());
+        usuario.setSenha(usuarioEntity.getSenha());
+        usuario.setApelido(usuarioEntity.getApelido());
+        usuario.setDataNascimento(usuarioEntity.getDataNascimento());
+        usuario.setCelular(usuarioEntity.getCelular());
+        usuario.setGenero(mapGenero(usuarioEntity.getGenero()));
+        usuario.setDataCadastro(usuarioEntity.getDataCadastro());
+        usuario.setDataAtualizacao(usuarioEntity.getDataAtualizacao());
+        usuario.setCodigoSeguranca(usuarioEntity.getCodigoSeguranca());
+        usuario.setDataHoraCodigoSeguranca(usuarioEntity.getDataHoraCodigoSeguranca());
+        usuario.setEndereco(mapEnderecoComCep(endereco));
+
+        return usuario;
     }
 
 }

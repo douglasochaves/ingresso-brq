@@ -61,7 +61,7 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
 
         if(usuarioAtualizado.getEndereco() != null) {
             CepDomain cepDomain = cepGateway.processCep(usuarioAtualizado.getEndereco().getCep());
-            UsuarioDomain usuarioDomain = UsuarioMapper.mapEndereco(usuarioAtualizado, cepDomain);
+            UsuarioDomain usuarioDomain = UsuarioMapper.mapEndereco(usuario, cepDomain);
             usuarioDomain.setId(usuario.getId());
             UsuarioDomain usuarioDomainAtualizado =
                     UsuarioMapper.mapAtualizaComEndereco(usuarioAtualizado, usuarioDomain);
@@ -77,6 +77,8 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
     public UsuarioDomain geraHashTrocaSenha(String id) {
         UsuarioDomain usuarioDomain = verificaUsuario(id);
         String hash = UUID.randomUUID().toString();
+        usuarioDomain.setCodigoSeguranca(hash);
+        usuarioDomain.setDataHoraCodigoSeguranca(Helpers.dataHoraAtualFormatada());
         UsuarioDomain usuarioCadastrado = usuarioGateway.saveHash(usuarioDomain, hash);
         return usuarioCadastrado;
     }
@@ -89,6 +91,7 @@ public class UsuarioUseCaseImpl implements UsuarioUseCase {
     @Override
     public void alteraSenha(String senhaAtual, String novaSenha, String id) {
         UsuarioDomain usuarioDomain = verificaAlteraSenha(senhaAtual, id);
+        usuarioDomain.setSenha(novaSenha);
         usuarioGateway.putSenha(usuarioDomain, novaSenha);
     }
 

@@ -1,6 +1,5 @@
 package br.com.brq.brqingresso.dataprovider.services;
 
-import br.com.brq.brqingresso.common.Helpers;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
 import br.com.brq.brqingresso.dataprovider.mappers.UsuarioMapper;
 import br.com.brq.brqingresso.dataprovider.repositories.UsuarioRepository;
@@ -10,6 +9,7 @@ import br.com.brq.brqingresso.usecase.gateways.UsuarioGateway;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,7 +17,6 @@ import java.util.List;
 public class UsuarioDataBaseImpl implements UsuarioGateway {
 
     private final UsuarioRepository usuarioRepository;
-    private final CepService cepService;
 
     @Override
     public UsuarioDomain save(UsuarioDomain usuarioDomain) {
@@ -56,16 +55,15 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
 
     @Override
     public UsuarioDomain patch(UsuarioDomain usuarioAtualizado) {
-        UsuarioEntity usuarioEntity = UsuarioMapper.mapToEntity(usuarioAtualizado);
+        UsuarioEntity usuarioEntity = UsuarioMapper.mapToEntityAtualiza(usuarioAtualizado);
+        usuarioEntity.setDataAtualizacao(LocalDateTime.now());
         usuarioRepository.save(usuarioEntity);
-        UsuarioDomain usuarioDomainAtualizado = UsuarioMapper.mapToDomain(usuarioEntity);
+        UsuarioDomain usuarioDomainAtualizado = UsuarioMapper.mapToDomainAtualiza(usuarioEntity);
         return usuarioDomainAtualizado;
     }
 
     @Override
     public UsuarioDomain saveHash(UsuarioDomain usuarioDomain, String hash) {
-        usuarioDomain.setCodigoSeguranca(hash);
-        usuarioDomain.setDataHoraCodigoSeguranca(Helpers.dataHoraAtualFormatada());
         UsuarioEntity usuarioEntity = UsuarioMapper.mapToEntity(usuarioDomain);
         usuarioRepository.save(usuarioEntity);
         UsuarioDomain usuarioComHash = UsuarioMapper.mapToDomain(usuarioEntity);
@@ -74,7 +72,6 @@ public class UsuarioDataBaseImpl implements UsuarioGateway {
 
     @Override
     public void putSenha(UsuarioDomain usuarioDomain, String novaSenha) {
-        usuarioDomain.setSenha(novaSenha);
         UsuarioEntity usuarioEntity = UsuarioMapper.mapToEntity(usuarioDomain);
         usuarioRepository.save(usuarioEntity);
     }
