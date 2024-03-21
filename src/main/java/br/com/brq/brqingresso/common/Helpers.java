@@ -11,15 +11,13 @@ public class Helpers {
     public static LocalDate convertStringToDate(String string) {
         if(string == null) return null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(string, formatter);
-        return date;
+        return LocalDate.parse(string, formatter);
     }
 
     public static LocalDateTime convertStringToDateTime(String string) {
         if(string == null) return null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
-        LocalDateTime dateTime = LocalDateTime.parse(string, formatter);
-        return dateTime;
+        return LocalDateTime.parse(string, formatter);
     }
 
     public static String dataHoraAtualFormatada() {

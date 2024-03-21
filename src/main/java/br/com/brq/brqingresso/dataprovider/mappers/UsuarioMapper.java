@@ -2,7 +2,7 @@ package br.com.brq.brqingresso.dataprovider.mappers;
 
 import br.com.brq.brqingresso.dataprovider.entities.EnderecoEntity;
 import br.com.brq.brqingresso.dataprovider.entities.UsuarioEntity;
-import br.com.brq.brqingresso.usecase.domains.CepDomain;
+import br.com.brq.brqingresso.dataprovider.enums.GeneroEnum;
 import br.com.brq.brqingresso.usecase.domains.EnderecoDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioDomain;
 import br.com.brq.brqingresso.usecase.domains.UsuarioListaDomain;
@@ -16,22 +16,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UsuarioMapper {
 
-    private static Integer mapGenero(String genero) {
-        if(genero == null) return null;
-        switch (genero) {
-            case "M":
-                return 1;
-            case "F":
-                return 2;
-            case "B":
-                return 3;
-            case "N":
-                return 4;
-            default:
-                return null;
-        }
-    }
-
     public static UsuarioEntity mapToEntity(UsuarioDomain usuarioDomain){
         UsuarioEntity usuario = new UsuarioEntity();
         EnderecoDomain endereco = usuarioDomain.getEndereco();
@@ -44,7 +28,7 @@ public class UsuarioMapper {
         usuario.setApelido(usuarioDomain.getApelido());
         usuario.setDataNascimento(usuarioDomain.getDataNascimento());
         usuario.setCelular(usuarioDomain.getCelular());
-        usuario.setGenero(mapGenero(usuarioDomain.getGenero()));
+        usuario.setGenero((GeneroEnum.obterGenero(usuarioDomain.getGenero())));
         usuario.setDataCadastro(LocalDateTime.now());
         usuario.setDataAtualizacao(usuarioDomain.getDataAtualizacao());
         usuario.setCodigoSeguranca(usuarioDomain.getCodigoSeguranca());
@@ -105,29 +89,13 @@ public class UsuarioMapper {
         usuario.setApelido(usuarioEntity.getApelido());
         usuario.setDataNascimento(usuarioEntity.getDataNascimento());
         usuario.setCelular(usuarioEntity.getCelular());
-        usuario.setGenero(mapGenero(usuarioEntity.getGenero()));
+        usuario.setGenero((GeneroEnum.obterGenero(usuarioEntity.getGenero())));
         usuario.setDataCadastro(usuarioEntity.getDataCadastro());
         usuario.setCodigoSeguranca(usuarioEntity.getCodigoSeguranca());
         usuario.setDataHoraCodigoSeguranca(usuarioEntity.getDataHoraCodigoSeguranca());
         usuario.setEndereco(mapEnderecoComCep(endereco));
 
         return usuario;
-    }
-
-    private static String mapGenero(Integer genero) {
-        if(genero == null) return null;
-        switch (genero) {
-            case 1:
-                return "M";
-            case 2:
-                return "F";
-            case 3:
-                return "B";
-            case 4:
-                return "N";
-            default:
-                return null;
-        }
     }
 
     public static List<UsuarioListaDomain> mapToDomain(List<UsuarioEntity> usuarios) {
@@ -152,7 +120,7 @@ public class UsuarioMapper {
         usuario.setApelido(usuarioDomain.getApelido());
         usuario.setDataNascimento(usuarioDomain.getDataNascimento());
         usuario.setCelular(usuarioDomain.getCelular());
-        usuario.setGenero(mapGenero(usuarioDomain.getGenero()));
+        usuario.setGenero(GeneroEnum.obterGenero(usuarioDomain.getGenero()));
         usuario.setDataCadastro(usuarioDomain.getDataCadastro());
         usuario.setDataAtualizacao(usuarioDomain.getDataAtualizacao());
         usuario.setEndereco(mapEndereco(endereco));
@@ -174,7 +142,7 @@ public class UsuarioMapper {
         usuario.setApelido(usuarioEntity.getApelido());
         usuario.setDataNascimento(usuarioEntity.getDataNascimento());
         usuario.setCelular(usuarioEntity.getCelular());
-        usuario.setGenero(mapGenero(usuarioEntity.getGenero()));
+        usuario.setGenero(GeneroEnum.obterGenero(usuarioEntity.getGenero()));
         usuario.setDataCadastro(usuarioEntity.getDataCadastro());
         usuario.setDataAtualizacao(usuarioEntity.getDataAtualizacao());
         usuario.setCodigoSeguranca(usuarioEntity.getCodigoSeguranca());
